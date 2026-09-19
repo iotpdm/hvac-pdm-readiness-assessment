@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Facilytics — Predictive Maintenance Readiness Assessment</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Compiled once, offline, from Tailwind CLI — no runtime CDN dependency for core styling.
+   The app's entire appearance no longer depends on any external script loading successfully. */
+*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/*! tailwindcss v3.4.19 | MIT License | https://tailwindcss.com*/*,:after,:before{box-sizing:border-box;border:0 solid #e5e7eb}:after,:before{--tw-content:""}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:IBM Plex Mono,monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}.visible{visibility:visible}.invisible{visibility:hidden}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.-left-10{left:-2.5rem}.-left-16{left:-4rem}.-top-10{top:-2.5rem}.right-0{right:0}.top-10{top:2.5rem}.top-60{top:15rem}.mx-auto{margin-left:auto;margin-right:auto}.-mt-2{margin-top:-.5rem}.mb-1{margin-bottom:.25rem}.mb-2{margin-bottom:.5rem}.mb-3{margin-bottom:.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.ml-auto{margin-left:auto}.mt-0\.5{margin-top:.125rem}.mt-1{margin-top:.25rem}.mt-3{margin-top:.75rem}.mt-4{margin-top:1rem}.mt-5{margin-top:1.25rem}.mt-7{margin-top:1.75rem}.mt-8{margin-top:2rem}.mt-9{margin-top:2.25rem}.inline-block{display:inline-block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-1\.5{height:.375rem}.h-2\.5{height:.625rem}.h-3{height:.75rem}.h-4{height:1rem}.h-56{height:14rem}.h-64{height:16rem}.h-72{height:18rem}.h-9{height:2.25rem}.h-full{height:100%}.h-px{height:1px}.min-h-screen{min-height:100vh}.w-3{width:.75rem}.w-4{width:1rem}.w-56{width:14rem}.w-64{width:16rem}.w-72{width:18rem}.w-9{width:2.25rem}.w-full{width:100%}.max-w-2xl{max-width:42rem}.max-w-5xl{max-width:64rem}.max-w-\[280px\]{max-width:280px}.max-w-md{max-width:28rem}.max-w-xl{max-width:36rem}.flex-1{flex:1 1 0%}.flex-shrink-0{flex-shrink:0}.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.list-inside{list-style-position:inside}.list-decimal{list-style-type:decimal}.list-disc{list-style-type:disc}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:.25rem}.gap-1\.5{gap:.375rem}.gap-10{gap:2.5rem}.gap-2{gap:.5rem}.gap-3{gap:.75rem}.gap-4{gap:1rem}.gap-8{gap:2rem}.gap-x-5{-moz-column-gap:1.25rem;column-gap:1.25rem}.gap-y-1{row-gap:.25rem}.space-y-1>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.25rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.25rem*var(--tw-space-y-reverse))}.space-y-1\.5>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.375rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.375rem*var(--tw-space-y-reverse))}.space-y-2>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.5rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.5rem*var(--tw-space-y-reverse))}.space-y-2\.5>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.625rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.625rem*var(--tw-space-y-reverse))}.space-y-3>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.75rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.75rem*var(--tw-space-y-reverse))}.space-y-4>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem*var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:.5rem}.rounded-xl{border-radius:.75rem}.border{border-width:1px}.border-dashed{border-style:dashed}.border-hair{--tw-border-opacity:1;border-color:rgb(220 235 226/var(--tw-border-opacity,1))}.bg-bg{background-color:rgb(246 251 247/var(--tw-bg-opacity,1))}.bg-bg,.bg-hair{--tw-bg-opacity:1}.bg-hair{background-color:rgb(220 235 226/var(--tw-bg-opacity,1))}.bg-panel{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity,1))}.bg-panel2{--tw-bg-opacity:1;background-color:rgb(239 247 241/var(--tw-bg-opacity,1))}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.px-1{padding-left:.25rem;padding-right:.25rem}.px-2{padding-left:.5rem;padding-right:.5rem}.px-2\.5{padding-left:.625rem;padding-right:.625rem}.px-3{padding-left:.75rem;padding-right:.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.px-7{padding-left:1.75rem;padding-right:1.75rem}.py-0\.5{padding-top:.125rem;padding-bottom:.125rem}.py-1{padding-top:.25rem;padding-bottom:.25rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.py-2\.5{padding-top:.625rem;padding-bottom:.625rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-3\.5{padding-top:.875rem;padding-bottom:.875rem}.py-8{padding-top:2rem;padding-bottom:2rem}.pb-2{padding-bottom:.5rem}.pt-1{padding-top:.25rem}.pt-1\.5{padding-top:.375rem}.text-left{text-align:left}.text-center{text-align:center}.font-body{font-family:IBM Plex Sans,sans-serif}.font-display{font-family:Space Grotesk,sans-serif}.font-mono{font-family:IBM Plex Mono,monospace}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-5xl{font-size:3rem;line-height:1}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-\[15px\]{font-size:15px}.text-base{font-size:1rem;line-height:1.5rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:.75rem;line-height:1rem}.font-medium{font-weight:500}.font-semibold{font-weight:600}.italic{font-style:italic}.leading-relaxed{line-height:1.625}.leading-tight{line-height:1.25}.tracking-\[0\.2em\]{letter-spacing:.2em}.tracking-wider{letter-spacing:.05em}.text-dim{--tw-text-opacity:1;color:rgb(92 117 104/var(--tw-text-opacity,1))}.text-dim\/60{color:rgba(92,117,104,.6)}.text-dim\/70{color:rgba(92,117,104,.7)}.text-ink{--tw-text-opacity:1;color:rgb(15 42 31/var(--tw-text-opacity,1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}.underline{text-decoration-line:underline}.decoration-dotted{text-decoration-style:dotted}.underline-offset-4{text-underline-offset:4px}.opacity-20{opacity:.2}.opacity-25{opacity:.25}.opacity-30{opacity:.3}.opacity-60{opacity:.6}.shadow-sm{--tw-shadow:0 1px 2px 0 rgba(0,0,0,.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.outline{outline-style:solid}.blur{--tw-blur:blur(8px)}.blur,.filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-colors{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.placeholder\:text-dim\/70::-moz-placeholder{color:rgba(92,117,104,.7)}.placeholder\:text-dim\/70::placeholder{color:rgba(92,117,104,.7)}.hover\:border-\[\#00B8D9\]:hover{--tw-border-opacity:1;border-color:rgb(0 184 217/var(--tw-border-opacity,1))}.hover\:bg-panel2\/60:hover{background-color:rgba(239,247,241,.6)}.hover\:text-ink:hover{--tw-text-opacity:1;color:rgb(15 42 31/var(--tw-text-opacity,1))}.focus\:not-sr-only:focus{position:static;width:auto;height:auto;padding:0;margin:0;overflow:visible;clip:auto;white-space:normal}.focus\:fixed:focus{position:fixed}.focus\:left-3:focus{left:.75rem}.focus\:top-3:focus{top:.75rem}.focus\:z-50:focus{z-index:50}.focus\:rounded-lg:focus{border-radius:.5rem}.focus\:border:focus{border-width:1px}.focus\:border-hair:focus{--tw-border-opacity:1;border-color:rgb(220 235 226/var(--tw-border-opacity,1))}.focus\:bg-panel:focus{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity,1))}.focus\:px-4:focus{padding-left:1rem;padding-right:1rem}.focus\:py-2:focus{padding-top:.5rem;padding-bottom:.5rem}.focus\:text-ink:focus{--tw-text-opacity:1;color:rgb(15 42 31/var(--tw-text-opacity,1))}@media (min-width:640px){.sm\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.sm\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.sm\:grid-cols-\[280px_1fr\]{grid-template-columns:280px 1fr}.sm\:p-6{padding:1.5rem}.sm\:p-8{padding:2rem}.sm\:px-8{padding-left:2rem;padding-right:2rem}.sm\:py-12{padding-top:3rem;padding-bottom:3rem}.sm\:text-3xl{font-size:1.875rem;line-height:2.25rem}.sm\:text-5xl{font-size:3rem;line-height:1}}@media (min-width:1024px){.lg\:sticky{position:sticky}.lg\:top-8{top:2rem}.lg\:grid-cols-\[1fr_300px\]{grid-template-columns:1fr 300px}}
+</style>
+<style>
+  * { -webkit-tap-highlight-color: transparent; }
+  body { background-color: #F6FBF7; }
+  .blob { filter: blur(70px); }
+  .option-card { transition: border-color .15s ease, background-color .15s ease, transform .1s ease; }
+  .option-card:hover { transform: translateY(-1px); }
+  .option-card.unknown.selected { border-color: #94a3b8 !important; background-color: #f1f5f9 !important; }
+  .seg { transition: width 1s cubic-bezier(.2,.8,.2,1); }
+  /* No transform-origin here: the SVG attribute rotate(angle, cx, cy) already
+     fully encodes its own rotation center. Adding a CSS transform-origin on
+     top double-applies the origin and displaces the whole line off-target. */
+  .fade-in { animation: fadeIn .45s ease both; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(8px);} to {opacity:1; transform:translateY(0);} }
+  .grad-text {
+    background-image: linear-gradient(90deg, #7C5CFC, #00B8D9, #27AE60);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-thumb { background: #DCEBE2; border-radius: 6px; }
+  @media (prefers-reduced-motion: reduce) {
+    .seg, .needle, .fade-in { transition: none !important; animation: none !important; }
+  }
+  input:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid #00B8D9; outline-offset: 2px;
+  }
+  .btn-grad {
+    background-image: linear-gradient(90deg, #00B8D9, #27AE60);
+    box-shadow: 0 8px 24px -8px rgba(0,184,217,0.55);
+  }
+  .btn-grad:hover { filter: brightness(1.06); }
+  @media print {
+    .no-print { display: none !important; }
+    body { background: white !important; }
+    * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .blob { display: none !important; }
+  }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+</style>
+</head>
+<body class="bg-bg text-ink font-body min-h-screen">
+
+<a href="#app" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:bg-panel focus:border focus:border-hair focus:rounded-lg focus:px-4 focus:py-2 focus:text-ink">Skip to content</a>
+<div id="live-region" class="sr-only" role="status" aria-live="polite"></div>
+<main id="app" class="max-w-5xl mx-auto px-5 sm:px-8 py-8 sm:py-12 relative"></main>
+
+<script>
+/* =========================================================================
+   1. DATA — extracted 1:1 from the Facilytics workbook
+      (Data_Entry questions, Admin_Dictionary scoring/recommendations,
+      Weights sheet). Nothing here is invented; scores/descriptions are
+      copied verbatim from the source spreadsheet.
+========================================================================= */
+const TOOL_DATA = {"dimensions": [{"code": "MM", "name": "Maintenance Maturity", "weight": 0.2}, {"code": "DR", "name": "Digital Readiness", "weight": 0.2}, {"code": "IOT", "name": "IoT Monitoring Capability", "weight": 0.25}, {"code": "EN", "name": "Energy Performance Integration", "weight": 0.2}, {"code": "ORG", "name": "Organisational Capability", "weight": 0.15}], "indicators": [{"id": "MM_1", "dimension": "Maintenance Maturity", "question": "What is the predominant maintenance strategy used for HVAC systems?", "options": [{"text": "Reactive maintenance only (failure-based)", "score": 1, "description": "Maintenance is entirely reactive with no  planning or prediction", "recommendation": "Introduce preventive maintenance scheduling"}, {"text": "Mostly preventive maintenance (time-based)", "score": 2, "description": "Maintenance follows fixed schedules with limited adaptability", "recommendation": "Introduce basic condition monitoring"}, {"text": "Preventive with some condition monitoring", "score": 3, "description": "Some monitoring is used but not fully integrated into decisions", "recommendation": "Expand monitoring and integrate data  into decisions"}, {"text": "Regular condition-based maintenance", "score": 4, "description": "Maintenance decisions are frequently based  on system condition", "recommendation": "Move toward predictive analytics"}, {"text": "Predictive maintenance using data and  analytics", "score": 5, "description": "Maintenance is fully predictive and optimised  using data", "recommendation": "Maintain and optimise predictive  strategies"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "MM_2", "dimension": "Maintenance Maturity", "question": "How frequently do HVAC failures occur?", "options": [{"text": "Very frequent failures (uncontrolled  breakdowns)", "score": 1, "description": "HVAC failures occur very frequently with little  control or predictability", "recommendation": "Investigate root causes and implement  basic preventive maintenance"}, {"text": "Frequent failures", "score": 2, "description": "Failures occur frequently, indicating weak  maintenance control", "recommendation": "Strengthen preventive maintenance and  fault tracking"}, {"text": "Occasional failures", "score": 3, "description": "Failures occur occasionally but are manageable", "recommendation": "Introduce condition monitoring to reduce  unexpected failures"}, {"text": "Rare failures", "score": 4, "description": "Failures are rare due to effective maintenance  practices", "recommendation": "Optimise maintenance strategies using  performance data"}, {"text": "Very rare or near-zero failures", "score": 5, "description": "Failures are very rare or nearly eliminated due  to proactive and predictive maintenance", "recommendation": "Maintain predictive systems and  continuously refine fault prevention strategies"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "MM_3", "dimension": "Maintenance Maturity", "question": "To what extent is condition monitoring used to assess HVAC system performance?", "options": [{"text": "No condition monitoring used", "score": 1, "description": "No condition monitoring is used to assess  HVAC performance", "recommendation": "Introduce basic condition monitoring  tools"}, {"text": "Very limited monitoring", "score": 2, "description": "Very limited monitoring is applied to selected  components", "recommendation": "Expand monitoring coverage to critical assets"}, {"text": "Basic monitoring on some components", "score": 3, "description": "Basic monitoring is used but not consistently  applied", "recommendation": "Standardise monitoring practices across  systems"}, {"text": "Regular monitoring across systems", "score": 4, "description": "Regular monitoring is implemented across  major systems", "recommendation": "Integrate monitoring data into  maintenance decisions"}, {"text": "Advanced continuous monitoring", "score": 5, "description": "Continuous and advanced monitoring supports  predictive maintenance", "recommendation": "Enhance analytics and automate fault  detection"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "MM_4", "dimension": "Maintenance Maturity", "question": "How systematically are maintenance activities recorded and analysed?", "options": [{"text": "No structured recording", "score": 1, "description": "Maintenance activities are not recorded  systematically", "recommendation": "Establish structured maintenance  recording processes"}, {"text": "Basic manual records", "score": 2, "description": "Basic records are kept but lack consistency or  detail", "recommendation": "Improve documentation quality and  standardisation"}, {"text": "Records maintained but limited analysis", "score": 3, "description": "Records are maintained with limited analysis", "recommendation": "Introduce routine analysis of  maintenance data"}, {"text": "Structured records with regular analysis", "score": 4, "description": "Structured records are regularly analysed to  inform decisions", "recommendation": "Improve analytical tools and reporting  systems"}, {"text": "Fully digital records with advanced analytics", "score": 5, "description": "Fully digital records are analysed using  advanced tools", "recommendation": "Integrate analytics with predictive  maintenance systems"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "MM_5", "dimension": "Maintenance Maturity", "question": "To what extent are maintenance decisions based on data rather than fixed schedules?", "options": [{"text": "No data use (fully schedule-based)", "score": 1, "description": "Maintenance decisions are entirely schedule- based with no data use", "recommendation": "Begin collecting and using basic  maintenance data"}, {"text": "Minimal data use", "score": 2, "description": "Minimal data is used in decision-making", "recommendation": "Increase reliance on performance data"}, {"text": "Some data-informed decisions", "score": 3, "description": "Some decisions are informed by available data", "recommendation": "Strengthen data integration into planning"}, {"text": "Regular data-driven decisions", "score": 4, "description": "Maintenance decisions are largely data-driven", "recommendation": "Enhance predictive capabilities"}, {"text": "Fully data-driven predictive decisions", "score": 5, "description": "Decisions are fully data-driven and optimised  using advanced analytics", "recommendation": "Continuously refine predictive models"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "DR_1", "dimension": "Digital Readiness", "question": "What level of digital system (e.g., CMMS/BMS) is used to manage HVAC maintenance?", "options": [{"text": "No digital system used", "score": 1, "description": "No digital systems are used for maintenance  management", "recommendation": "Introduce basic CMMS or digital tools"}, {"text": "Very basic digital tools", "score": 2, "description": "Very limited digital tools are used", "recommendation": "Expand digital system adoption"}, {"text": "Partial use of CMMS/BMS", "score": 3, "description": "Partial use of digital systems exists", "recommendation": "Improve system utilisation"}, {"text": "Mostly digital system use", "score": 4, "description": "Digital systems are widely used", "recommendation": "Integrate systems across functions"}, {"text": "Fully integrated digital systems", "score": 5, "description": "Fully integrated digital systems support  operations", "recommendation": "Optimise system interoperability"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "DR_2", "dimension": "Digital Readiness", "question": "How are maintenance records stored and managed (manual vs digital)?", "options": [{"text": "Fully paper-based", "score": 1, "description": "Records are fully paper-based", "recommendation": "Begin digitising records"}, {"text": "Mostly paper-based", "score": 2, "description": "Mostly paper-based with limited digital storage", "recommendation": "Increase digital documentation"}, {"text": "Mixed paper and digital", "score": 3, "description": "Mixed paper and digital systems", "recommendation": "Transition toward full digitalisation"}, {"text": "Mostly digital", "score": 4, "description": "Mostly digital records with good organisation", "recommendation": "Improve data accessibility"}, {"text": "Fully digital and integrated", "score": 5, "description": "Fully digital and integrated record systems", "recommendation": "Maintain and optimise data systems"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "DR_3", "dimension": "Digital Readiness", "question": "To what extent is maintenance data accessible for analysis and decision-making?", "options": [{"text": "Data not accessible", "score": 1, "description": "Data is not accessible for analysis", "recommendation": "Establish data access systems"}, {"text": "Very limited access", "score": 2, "description": "Access is very limited", "recommendation": "Improve access permissions and systems"}, {"text": "Moderate access", "score": 3, "description": "Moderate accessibility exists", "recommendation": "Enhance data sharing mechanisms"}, {"text": "Easily accessible", "score": 4, "description": "Data is easily accessible to relevant users", "recommendation": "Improve integration across systems"}, {"text": "Fully accessible and shared", "score": 5, "description": "Data is fully accessible and integrated across  platforms", "recommendation": "Optimise real-time data availability"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "DR_4", "dimension": "Digital Readiness", "question": "How well are different building systems digitally integrated?", "options": [{"text": "No integration", "score": 1, "description": "No integration between building systems", "recommendation": "Begin integrating key systems"}, {"text": "Minimal integration", "score": 2, "description": "Minimal integration exists", "recommendation": "Expand integration across systems"}, {"text": "Partial integration", "score": 3, "description": "Partial integration between systems", "recommendation": "Improve interoperability"}, {"text": "Good integration", "score": 4, "description": "Systems are well integrated", "recommendation": "Enhance cross-system analytics"}, {"text": "Fully integrated systems", "score": 5, "description": "Fully integrated systems operate seamlessly", "recommendation": "Maintain and optimise integration"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "DR_5", "dimension": "Digital Readiness", "question": "What is the overall quality and reliability of available maintenance data?", "options": [{"text": "Very poor data quality", "score": 1, "description": "Data quality is very poor and unreliable", "recommendation": "Establish data quality standards"}, {"text": "Poor", "score": 2, "description": "Data is often incomplete or inconsistent", "recommendation": "Improve data validation processes"}, {"text": "Moderate", "score": 3, "description": "Data quality is moderate", "recommendation": "Enhance data accuracy and completeness"}, {"text": "Good", "score": 4, "description": "Data is reliable and consistent", "recommendation": "Improve real-time data accuracy"}, {"text": "Very high quality and reliable", "score": 5, "description": "Data is highly reliable and supports advanced  analytics", "recommendation": "Maintain data governance standards"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "IOT_1", "dimension": "IoT Monitoring Capability", "question": "To what extent are sensors deployed in HVAC systems?", "options": [{"text": "No sensors installed", "score": 1, "description": "No sensors are installed", "recommendation": "Introduce basic sensors"}, {"text": "Very limited sensors", "score": 2, "description": "Very limited sensor deployment", "recommendation": "Expand sensor coverage"}, {"text": "Sensors on some key components", "score": 3, "description": "Sensors installed on key components", "recommendation": "Extend monitoring scope"}, {"text": "Sensors on most systems", "score": 4, "description": "Sensors installed on key components", "recommendation": "Improve integration"}, {"text": "Comprehensive sensor deployment", "score": 5, "description": "Comprehensive sensor deployment across systems", "recommendation": "Optimise sensor analytics"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "IOT_2", "dimension": "IoT Monitoring Capability", "question": "What range of parameters is monitored?", "options": [{"text": "No parameters monitored", "score": 1, "description": "No parameters are monitored", "recommendation": "Start monitoring basic parameters"}, {"text": "Very few parameters", "score": 2, "description": "Very few parameters monitored", "recommendation": "Expand monitored variables"}, {"text": "Some parameters monitored", "score": 3, "description": "Some parameters monitored", "recommendation": "Improve coverage"}, {"text": "Most key parameters monitored", "score": 4, "description": "Most critical parameters monitored", "recommendation": "Enhance monitoring depth"}, {"text": "Full parameter coverage", "score": 5, "description": "Full parameter coverage achieved", "recommendation": "Integrate multi-parameter analytics"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "IOT_3", "dimension": "IoT Monitoring Capability", "question": "How frequently is HVAC system data collected and updated?", "options": [{"text": "No data collection", "score": 1, "description": "No data collection", "recommendation": "Establish data collection systems"}, {"text": "Infrequent/manual collection", "score": 2, "description": "Infrequent/manual collection", "recommendation": "Increase frequency"}, {"text": "Periodic collection", "score": 3, "description": "Periodic data collection", "recommendation": "Automate data collection"}, {"text": "Frequent automated collection", "score": 4, "description": "Frequent automated data collection", "recommendation": "Improve real-time capability"}, {"text": "Real-time continuous data", "score": 5, "description": "Continuous real-time data collection", "recommendation": "Optimise real-time analytics"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "IOT_4", "dimension": "IoT Monitoring Capability", "question": "To what extent is real-time monitoring implemented?", "options": [{"text": "No real-time monitoring", "score": 1, "description": "No real-time monitoring", "recommendation": "Introduce monitoring tools"}, {"text": "Very limited", "score": 2, "description": "Very limited real-time capability", "recommendation": "Expand monitoring"}, {"text": "Partial implementation", "score": 3, "description": "Partial real-time implementation", "recommendation": "Improve coverage"}, {"text": "Mostly real-time", "score": 4, "description": "Mostly real-time monitoring", "recommendation": "Integrate monitoring systems"}, {"text": "Fully real-time monitoring", "score": 5, "description": "Fully real-time monitoring across systems", "recommendation": "Optimise real-time analytics"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "IOT_5", "dimension": "IoT Monitoring Capability", "question": "How effectively are sensor data used to detect faults or anomalies?", "options": [{"text": "No fault detection capability", "score": 1, "description": "No fault detection capability", "recommendation": "Introduce basic detection tools"}, {"text": "Very limited detection", "score": 2, "description": "Very limited detection", "recommendation": "Improve detection methods"}, {"text": "Basic detection", "score": 3, "description": "Basic detection capability", "recommendation": "Enhance detection accuracy"}, {"text": "Effective detection", "score": 4, "description": "Effective fault detection system", "recommendation": "Integrate predictive models"}, {"text": "Advanced predictive detection", "score": 5, "description": "Advanced predictive fault detection", "recommendation": "Optimise predictive analytics"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "EN_1", "dimension": "Energy Performance Integration", "question": "To what extent is HVAC energy consumption monitored?", "options": [{"text": "No energy monitoring", "score": 1, "description": "No energy monitoring", "recommendation": "Introduce basic energy monitoring"}, {"text": "Basic tracking only", "score": 2, "description": "Basic energy tracking only", "recommendation": "Improve monitoring detail"}, {"text": "Some monitoring", "score": 3, "description": "Some monitoring exists", "recommendation": "Increase integration with maintenance"}, {"text": "Regular monitoring", "score": 4, "description": "Regular monitoring informs decisions", "recommendation": "Improve optimisation strategies"}, {"text": "Fully integrated real-time monitoring", "score": 5, "description": "Fully integrated real-time energy monitoring", "recommendation": "Enhance predictive optimisation"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "EN_2", "dimension": "Energy Performance Integration", "question": "How detailed is the energy monitoring?", "options": [{"text": "Whole-building only", "score": 1, "description": "Only whole-building energy monitored", "recommendation": "Introduce system-level monitoring"}, {"text": "Limited system-level", "score": 2, "description": "Limited system-level monitoring", "recommendation": "Improve detail"}, {"text": "Moderate detail", "score": 3, "description": "Moderate detail available", "recommendation": "Enhance granularity"}, {"text": "Detailed system-level", "score": 4, "description": "Detailed system-level monitoring", "recommendation": "Integrate with analytics"}, {"text": "Highly granular monitoring", "score": 5, "description": "Highly granular monitoring across systems", "recommendation": "Optimise performance tracking"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "EN_3", "dimension": "Energy Performance Integration", "question": "To what extent is energy data used in maintenance planning?", "options": [{"text": "Not used in maintenance", "score": 1, "description": "Energy data not used in maintenance", "recommendation": "Begin integrating energy data"}, {"text": "Rarely used", "score": 2, "description": "Rare use of energy data", "recommendation": "Increase usage"}, {"text": "Occasionally used", "score": 3, "description": "Occasional use", "recommendation": "Strengthen integration"}, {"text": "Regularly used", "score": 4, "description": "Regular use", "recommendation": "Improve optimisation"}, {"text": "Fully integrated in decisions", "score": 5, "description": "Fully integrated into decisions", "recommendation": "Enhance predictive use"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "EN_4", "dimension": "Energy Performance Integration", "question": "How effectively are energy inefficiencies linked to HVAC faults?", "options": [{"text": "No linkage", "score": 1, "description": "No link between energy and faults", "recommendation": "Establish linkage"}, {"text": "Weak linkage", "score": 2, "description": "Weak linkage", "recommendation": "Improve correlation analysis"}, {"text": "Moderate linkage", "score": 3, "description": "Moderate linkage", "recommendation": "Strengthen analysis"}, {"text": "Strong linkage", "score": 4, "description": "Strong linkage", "recommendation": "Enhance diagnostics"}, {"text": "Fully integrated linkage", "score": 5, "description": "Fully integrated linkage", "recommendation": "Optimise fault-energy modelling"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "EN_5", "dimension": "Energy Performance Integration", "question": "To what extent are maintenance actions aimed at improving energy efficiency?", "options": [{"text": "No energy-focused actions", "score": 1, "description": "No energy-focused maintenance actions", "recommendation": "Introduce energy-based maintenance"}, {"text": "Very limited", "score": 2, "description": "Very limited actions", "recommendation": "Expand energy focus"}, {"text": "Some actions", "score": 3, "description": "Some actions", "recommendation": "Improve targeting"}, {"text": "Regular actions", "score": 4, "description": "Regular actions", "recommendation": "Enhance optimisation"}, {"text": "Strong optimisation focus", "score": 5, "description": "Strong focus on energy optimisation", "recommendation": "Sustain continuous improvement"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "ORG_1", "dimension": "Organisational Capability", "question": "What is the level of technical expertise of staff managing HVAC systems?", "options": [{"text": "Very low expertise", "score": 1, "description": "Very low technical expertise", "recommendation": "Provide basic training"}, {"text": "Low", "score": 2, "description": "Low expertise", "recommendation": "Improve training programs"}, {"text": "Moderate", "score": 3, "description": "Moderate expertise", "recommendation": "Enhance skills development"}, {"text": "High", "score": 4, "description": "High expertise", "recommendation": "Strengthen advanced capabilities"}, {"text": "Very high expertise", "score": 5, "description": "Very high expertise", "recommendation": "Maintain continuous learning"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "ORG_2", "dimension": "Organisational Capability", "question": "To what extent are staff trained in digital maintenance practices?", "options": [{"text": "No training", "score": 1, "description": "No training programs exist", "recommendation": "Introduce training programs"}, {"text": "Very limited", "score": 2, "description": "Very limited training", "recommendation": "Expand training coverage"}, {"text": "Occasional training", "score": 3, "description": "Occasional training", "recommendation": "Improve training frequency"}, {"text": "Regular training", "score": 4, "description": "Regular training", "recommendation": "Enhance training quality"}, {"text": "Advanced continuous training", "score": 5, "description": "Continuous advanced training", "recommendation": "Maintain training systems"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "ORG_3", "dimension": "Organisational Capability", "question": "How supportive is management toward adopting new technologies?", "options": [{"text": "No support", "score": 1, "description": "No management support", "recommendation": "Engage leadership"}, {"text": "Weak support", "score": 2, "description": "Weak support", "recommendation": "Strengthen commitment"}, {"text": "Moderate support", "score": 3, "description": "Moderate support", "recommendation": "Improve alignment"}, {"text": "Strong support", "score": 4, "description": "Strong support", "recommendation": "Sustain engagement"}, {"text": "Full strategic support", "score": 5, "description": "Full strategic support", "recommendation": "Maintain leadership commitment"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "ORG_4", "dimension": "Organisational Capability", "question": "How clearly defined are roles and responsibilities?", "options": [{"text": "No defined roles", "score": 1, "description": "Roles not defined", "recommendation": "Define roles clearly"}, {"text": "Poorly defined", "score": 2, "description": "Poorly defined roles", "recommendation": "Improve clarity"}, {"text": "Partially defined", "score": 3, "description": "Partially defined roles", "recommendation": "Strengthen structure"}, {"text": "Clearly defined", "score": 4, "description": "Clearly defined roles", "recommendation": "Improve coordination"}, {"text": "Fully structured governance", "score": 5, "description": "Fully structured governance", "recommendation": "Maintain governance systems"}, {"text": "Not known", "score": null, "description": "Information not available", "recommendation": "Improve data availability"}]}, {"id": "ORG_5", "dimension": "Organisational Capability", "question": "To what extent are resources available to support PdM implementation?", "options": [{"text": "No resources", "score": 1, "description": "No resources available", "recommendation": "Secure basic resources"}, {"text": "Very limited", "score": 2, "description": "Very limited resources", "recommendation": "Increase allocation"}, {"text": "Moderate", "score": 3, "description": "Moderate resources", "recommendation": "Improve efficiency"}, {"text": "Adequate", "score": 4, "description": "Adequate resources", "recommendation": "Optimise usage"}, {"text": "Fully sufficient resources", "score": 5, "description": "Fully sufficient resources", "recommendation": "Sustain resource support"}, {"text": "Not known", "score": null, "description": "", "recommendation": ""}]}]};
+
+// Vivid, distinct accent per dimension (design layer only — not in the workbook)
+const DIM_COLORS = {
+  MM:  '#7C5CFC',  // violet
+  DR:  '#2F80ED',  // blue
+  IOT: '#00B8D9',  // cyan
+  EN:  '#27AE60',  // green
+  ORG: '#F2994A',  // orange
+};
+
+// Original abstract SVG motifs per dimension — no external images, so no
+// licensing risk. Tiled as a subtle background pattern on each dimension's
+// page banner. MM=gears, DR=circuit grid, IOT=sensor network, EN=energy/leaf, ORG=org-chart nodes.
+function svgTile(inner, size = 160) {
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${size}' height='${size}' viewBox='0 0 ${size} ${size}'>${inner}</svg>`;
+  // encodeURIComponent does NOT escape single quotes, but the outer CSS url('...')
+  // wrapper uses single quotes — so any literal ' left over breaks the CSS string
+  // early and silently invalidates the whole background-image declaration.
+  const encoded = encodeURIComponent(svg).replace(/'/g, '%27');
+  return `url('data:image/svg+xml,${encoded}')`;
+}
+const DIM_BACKGROUNDS = {
+  MM: (c) => svgTile(`
+    <g fill='none' stroke='${c}' stroke-opacity='0.35' stroke-width='2'>
+      <circle cx='40' cy='40' r='16'/>
+      <path d='M40 20v-6M40 60v6M20 40h-6M60 40h6M25 25l-4-4M55 55l4 4M55 25l4-4M25 55l-4 4'/>
+      <circle cx='120' cy='110' r='16'/>
+      <path d='M120 90v-6M120 130v6M100 110h-6M140 110h6M105 95l-4-4M135 125l4 4M135 95l4-4M105 125l-4 4'/>
+    </g>`),
+  DR: (c) => svgTile(`
+    <g fill='none' stroke='${c}' stroke-opacity='0.3' stroke-width='1.5'>
+      <path d='M0 40h40v40h40v-40h40M0 120h30M130 120h30'/>
+    </g>
+    <g fill='${c}' fill-opacity='0.4'>
+      <circle cx='40' cy='40' r='3'/><circle cx='80' cy='80' r='3'/><circle cx='120' cy='40' r='3'/>
+    </g>`),
+  IOT: (c) => svgTile(`
+    <g stroke='${c}' stroke-opacity='0.3' stroke-width='1.2'>
+      <line x1='20' y1='30' x2='70' y2='60'/><line x1='70' y1='60' x2='130' y2='30'/>
+      <line x1='70' y1='60' x2='90' y2='120'/><line x1='90' y1='120' x2='140' y2='140'/>
+      <line x1='20' y1='30' x2='30' y2='110'/>
+    </g>
+    <g fill='${c}' fill-opacity='0.5'>
+      <circle cx='20' cy='30' r='3'/><circle cx='70' cy='60' r='4'/><circle cx='130' cy='30' r='3'/>
+      <circle cx='90' cy='120' r='3'/><circle cx='140' cy='140' r='3'/><circle cx='30' cy='110' r='3'/>
+    </g>`),
+  EN: (c) => svgTile(`
+    <g fill='${c}' fill-opacity='0.22'>
+      <path d='M40 10 L20 55 L36 55 L28 100 L60 45 L42 45 Z'/>
+    </g>
+    <g stroke='${c}' stroke-opacity='0.25' stroke-width='1.5' fill='none'>
+      <path d='M90 130 Q100 100 130 100 Q120 120 140 140'/>
+    </g>`),
+  ORG: (c) => svgTile(`
+    <g stroke='${c}' stroke-opacity='0.3' stroke-width='1.5' fill='none'>
+      <path d='M40 30v20M40 50h60M70 50v20M40 50v20M100 50v20'/>
+    </g>
+    <g fill='${c}' fill-opacity='0.45'>
+      <circle cx='40' cy='24' r='5'/><circle cx='40' cy='76' r='5'/><circle cx='70' cy='76' r='5'/><circle cx='100' cy='76' r='5'/>
+    </g>`),
+};
+
+const LEVELS = [
+  { max: 20,  label: 'Level 1 – Reactive',            color: '#EF5B4E' },
+  { max: 40,  label: 'Level 2 – Preventive',           color: '#F2994A' },
+  { max: 60,  label: 'Level 3 – Condition-Based',      color: '#E8C13B' },
+  { max: 80,  label: 'Level 4 – Partial Predictive',   color: '#6FCF97' },
+  { max: 100, label: 'Level 5 – Fully Predictive',     color: '#1DB870' },
+];
+
+// Friendly display labels — cosmetic only. The underlying indicator IDs
+// (MM_1, DR_2, etc.) are unchanged and remain the single source of truth
+// for every lookup, score, and formula. This map never touches TOOL_DATA.
+const INDICATOR_LABELS = {
+  MM_1: 'Maintenance Strategy', MM_2: 'Failure Frequency', MM_3: 'Condition Monitoring',
+  MM_4: 'Maintenance Record-Keeping', MM_5: 'Data-Driven Decisions',
+  DR_1: 'Digital Maintenance Systems', DR_2: 'Records Management', DR_3: 'Data Accessibility',
+  DR_4: 'System Integration', DR_5: 'Data Quality',
+  IOT_1: 'Sensor Deployment', IOT_2: 'Monitored Parameters', IOT_3: 'Data Collection Frequency',
+  IOT_4: 'Real-Time Monitoring', IOT_5: 'Fault Detection',
+  EN_1: 'Energy Consumption Monitoring', EN_2: 'Energy Monitoring Detail', EN_3: 'Energy Data in Planning',
+  EN_4: 'Energy–Fault Linkage', EN_5: 'Energy-Focused Maintenance',
+  ORG_1: 'Staff Technical Expertise', ORG_2: 'Digital Training', ORG_3: 'Management Support',
+  ORG_4: 'Roles & Responsibilities', ORG_5: 'Predictive Maintenance Resourcing',
+};
+
+// Recommendation bank — NOT part of the original workbook. This is added
+// interpretive content: several phrasings per maturity level so that two
+// assessments landing on a similar score don't read identical reports.
+// Selection is deterministic per answer-set (see hashAnswers), not random.
+const LEVEL_NARRATIVES = [
+  [ // Level 1 – Reactive
+    { summary: "Maintenance here is largely reactive — HVAC issues are addressed only once they cause a visible failure or occupant complaint.", energyImpact: "Reactive operation typically means equipment runs out of calibration for long stretches between failures, which tends to push energy consumption higher than necessary and shortens asset life.", recommendation: "Start small: pick the two or three HVAC assets most critical to your operations and introduce basic condition checks and a maintenance log before investing in any sensor hardware." },
+    { summary: "At this stage, HVAC upkeep is driven by breakdowns rather than a planned strategy — most effort goes into firefighting rather than prevention.", energyImpact: "Unplanned downtime and emergency repairs often coincide with periods of inefficient or unbalanced operation, quietly inflating the energy bill even when nothing looks obviously wrong.", recommendation: "Before adding technology, focus on process: establish a simple preventive schedule for the highest-risk units and start tracking failure causes so patterns become visible." },
+    { summary: "The current approach treats HVAC maintenance as a response to failure rather than a managed function — a common and understandable starting point.", energyImpact: "Systems that only get attention after breaking tend to drift out of their efficient operating range for extended periods, which adds up in wasted energy across a large HVAC footprint.", recommendation: "A practical first move is a basic asset inventory paired with manufacturer-recommended service intervals — the foundation every later stage builds on." },
+    { summary: "HVAC reliability is currently at the mercy of run-to-failure practices, with little structure guiding when or why maintenance happens.", energyImpact: "This pattern usually correlates with higher energy intensity per area served, since faults affecting efficiency (like refrigerant loss or fouled coils) often go unnoticed until performance visibly degrades.", recommendation: "Introduce a lightweight preventive calendar and nominate one person to own HVAC upkeep — ownership is often the biggest unlock at this stage, more than any single tool." },
+  ],
+  [ // Level 2 – Preventive
+    { summary: "Maintenance has moved to a scheduled, time-based rhythm — a meaningful step up from run-to-failure, though it isn't yet informed by actual equipment condition.", energyImpact: "Fixed-interval servicing reduces the worst failures, but equipment can still run inefficiently between scheduled visits if it degrades faster or slower than the calendar assumes.", recommendation: "Layer in simple condition indicators (vibration, temperature, filter differential pressure) on your highest-value units to start bridging toward condition-based maintenance." },
+    { summary: "A preventive maintenance schedule is in place, bringing more predictability than reactive approaches, even though it treats similar equipment identically regardless of actual wear.", energyImpact: "Because servicing intervals are fixed rather than condition-driven, some assets are likely over-maintained and others under-maintained — both waste either labour or energy.", recommendation: "Use your maintenance records to identify which equipment consistently needs attention between scheduled visits, and prioritise those for closer monitoring first." },
+    { summary: "Preventive scheduling is established, giving a solid operational baseline to build predictive capability on top of.", energyImpact: "Scheduled servicing catches many issues before failure, but subtle efficiency losses — a slowly fouling coil, a drifting sensor — can persist undetected between visits.", recommendation: "Pilot a small sensor deployment on one or two critical air handling units to test how real condition data compares with your current schedule-based assumptions." },
+    { summary: "Time-based preventive maintenance is your current standard — structured and defensible, but not yet responsive to how equipment is actually performing.", energyImpact: "The gap between 'scheduled' and 'needed' maintenance is often where energy waste hides, since a unit can quietly underperform for weeks before its next scheduled check.", recommendation: "Start capturing energy consumption per major HVAC asset — even monthly readings — so you can begin correlating maintenance timing with efficiency, not just uptime." },
+  ],
+  [ // Level 3 – Condition-Based
+    { summary: "Condition monitoring is genuinely influencing maintenance decisions now — a meaningful shift from calendar-driven to evidence-driven practice.", energyImpact: "This is typically where measurable energy savings start to show, since maintenance responds to real degradation rather than a fixed clock.", recommendation: "Expand sensor coverage and monitored parameters gradually, and feed condition data into a shared dashboard so decisions aren't held in one person's head." },
+    { summary: "You're using actual equipment condition to guide maintenance, at least for part of the HVAC estate — a solid mid-point on the maturity curve.", energyImpact: "Condition-based intervention tends to catch efficiency-robbing faults earlier than time-based schedules, though the benefit is currently limited to whichever assets are actually monitored.", recommendation: "Focus the next investment on closing gaps between monitored and unmonitored equipment — inconsistent coverage is often the main ceiling at this stage." },
+    { summary: "Maintenance decisions increasingly follow what the equipment is telling you, not just the calendar — real progress toward a predictive model.", energyImpact: "This stage often reveals hidden inefficiencies for the first time, since condition data surfaces problems that a purely scheduled approach would have missed entirely.", recommendation: "Consider integrating energy consumption data alongside condition data — the combination is what unlocks genuinely predictive, efficiency-aware maintenance." },
+    { summary: "A working condition-monitoring layer is in place, giving maintenance teams real signal to act on rather than relying purely on time intervals.", energyImpact: "Where this is applied, energy performance tends to stabilise, because faults that would silently increase energy draw get flagged before they become severe.", recommendation: "Push toward real-time, rather than periodic, data collection on your most energy-intensive units — usually the biggest lever available at this level." },
+  ],
+  [ // Level 4 – Partial Predictive
+    { summary: "A predictive approach is running across a meaningful part of your HVAC estate — real-time data and condition monitoring are actively shaping maintenance timing.", energyImpact: "At this level, organisations typically see tangible reductions in energy waste from faults, since problems affecting efficiency are usually caught and corrected before they compound.", recommendation: "Close the remaining gap by extending sensor coverage and organisational buy-in to whichever HVAC assets are still on preventive or reactive practices." },
+    { summary: "Predictive maintenance capability is well established for at least part of the system — a strong position that's mostly about consolidation from here.", energyImpact: "Partial predictive coverage usually delivers real energy benefit already, but the untouched portion of the estate can still be a meaningful drag on overall performance.", recommendation: "Use the results from your predictive-covered assets to build the business case for extending coverage to the remaining HVAC systems." },
+    { summary: "Genuine predictive capability has been built — sensors, integration, and organisational process are working together for a good share of your HVAC fleet.", energyImpact: "This is typically the stage where energy savings become measurable and defensible in reporting, since fault-related inefficiency is being actively caught rather than assumed.", recommendation: "Formalise the link between energy data and maintenance triggers organisation-wide, so predictive practice becomes policy rather than a pocket of excellence." },
+    { summary: "Predictive maintenance is operating credibly, if not yet universally, across your HVAC systems.", energyImpact: "The parts of the estate under predictive management are likely running closer to design efficiency, while remaining reactive or preventive zones continue to carry disproportionate energy risk.", recommendation: "Prioritise organisational capability next — training, defined roles, and management support tend to limit full-estate rollout more than the technology itself." },
+  ],
+  [ // Level 5 – Fully Predictive
+    { summary: "This reflects a mature, fully predictive maintenance operation — sensors, data integration, and organisational process are working together across the HVAC estate.", energyImpact: "Organisations at this level are typically capturing close to the achievable energy efficiency ceiling for their HVAC systems, with faults caught and resolved before they measurably affect consumption.", recommendation: "The focus now shifts to continuous improvement — benchmarking performance over time, refining fault-detection thresholds, and sharing practice across other building systems beyond HVAC." },
+    { summary: "Predictive maintenance is fully embedded — a genuinely advanced position that most facilities are still working toward.", energyImpact: "At this maturity, energy performance is generally well optimised relative to equipment design, and further gains tend to come from fine-tuning rather than fixing gaps.", recommendation: "Consider extending the same predictive discipline and data infrastructure to adjacent systems (lighting, water, electrical) to compound facility-wide efficiency gains." },
+    { summary: "The HVAC maintenance function is operating at a genuinely predictive, data-driven level across the board.", energyImpact: "This tends to correspond with strong, stable energy performance, since the mechanisms that usually cause waste — undetected drift, delayed repairs, inconsistent servicing — are largely designed out.", recommendation: "Use this maturity as a reference case: document what worked so it can be replicated at other sites or extended to additional building systems." },
+    { summary: "A fully predictive maintenance model is in place, representing the top tier of this framework.", energyImpact: "Facilities at this level typically see the lowest fault-related energy waste achievable without major capital equipment upgrades.", recommendation: "Shift attention toward resilience and knowledge continuity — cross-training staff and documenting the predictive process so performance doesn't depend on any single person or system." },
+  ],
+];
+
+const DIM_NUDGES = {
+  MM: [
+    "Maintenance Maturity is your current constraint — moving even one asset class from reactive to scheduled servicing is often the fastest way to lift the overall index.",
+    "Since maintenance strategy is the weakest link, tightening how consistently servicing actually happens will likely move the needle faster than adding more sensors.",
+    "Maintenance Maturity is trailing the other dimensions — a documented, consistently-followed servicing routine tends to be the cheapest lever available here.",
+  ],
+  DR: [
+    "Digital Readiness is holding the score back — even moving records from paper or spreadsheets into a basic digital maintenance system can unlock the data every other dimension depends on.",
+    "Weak digital infrastructure limits what any other improvement can achieve, since sensor and condition data need somewhere reliable to land.",
+    "Digital Readiness is the softest spot — prioritising system integration over new hardware is likely to pay off first.",
+  ],
+  IOT: [
+    "Internet of Things Monitoring Capability is the current gap — expanding sensor coverage, even modestly, is usually the most direct route to real-time visibility.",
+    "Sensor and monitoring coverage is lagging the rest of the framework — targeting your highest-risk or highest-energy assets first will get the best return.",
+    "Internet of Things Monitoring is weakest here — before buying more sensors, check whether existing ones are actually being used to detect faults, not just collect data.",
+  ],
+  EN: [
+    "Energy Performance Integration is under-developed relative to the rest — connecting existing energy meters to your maintenance data is often a quick, low-cost fix.",
+    "Energy data isn't yet informing maintenance decisions — that link is usually the missing piece between good maintenance practice and measurable efficiency gains.",
+    "This dimension lags the others — even simple monthly energy tracking per HVAC asset would start closing the gap.",
+  ],
+  ORG: [
+    "Organisational Capability is the constraint — training and clearly assigned ownership tend to matter more here than any additional technology spend.",
+    "People and process are the weak point, not the equipment — management support and defined roles are usually the fastest way to unblock progress.",
+    "This dimension is trailing — even without new tools, clarifying who owns predictive maintenance outcomes can meaningfully shift this score.",
+  ],
+};
+
+// Full-name overrides for dimensions whose source name contains an
+// abbreviation. This only affects what's displayed — TOOL_DATA.dimensions[].name
+// is still the exact string used to match indicators, untouched.
+const DIM_DISPLAY_NAMES = {
+  IOT: 'Internet of Things Monitoring Capability',
+};
+function dimDisplayName(code) { return DIM_DISPLAY_NAMES[code] || dimByCode(code).name; }
+
+function hashAnswers(answers) {
+  const keys = Object.keys(answers).sort();
+  const str = keys.map(k => k + ':' + answers[k]).join('|');
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) hash = (hash * 31 + str.charCodeAt(i)) >>> 0;
+  return hash;
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* =========================================================================
+   2. STATE
+========================================================================= */
+function todayISO() { return new Date().toISOString().slice(0, 10); }
+
+const state = {
+  view: 'intro',       // intro | assessment | results | methodology
+  step: 0,             // index into state.dimOrder during assessment
+  answers: {},          // indicator_id -> option index (or undefined)
+  dimOrder: TOOL_DATA.dimensions.map(d => d.code),      // order dimensions are presented in
+  questionOrder: Object.fromEntries(TOOL_DATA.dimensions.map(d =>
+    [d.code, TOOL_DATA.indicators.filter(i => i.dimension === d.name).map(i => i.id)])), // order of questions within each dimension
+  metadata: { facility: '', assessor: '', date: todayISO() },
+  isDemo: false,
+  previousView: 'intro', // where to return to from the methodology page
+};
+
+// Demo mode — the same worked example used to verify this app's arithmetic
+// against the source workbook. Answer text is resolved to option indices at
+// runtime so it always stays valid against TOOL_DATA.
+const DEMO_ANSWER_TEXT = {
+  MM_1: "Not known", MM_2: "Not known", MM_3: "No condition monitoring used",
+  MM_4: "Fully digital records with advanced analytics", MM_5: "Minimal data use",
+  DR_1: "Very basic digital tools", DR_2: "Fully digital and integrated", DR_3: "Data not accessible",
+  DR_4: "Not known", DR_5: "Not known",
+  IOT_1: "Very limited sensors", IOT_2: "Very few parameters", IOT_3: "Infrequent/manual collection",
+  IOT_4: "Very limited", IOT_5: "Not known",
+  EN_1: "Some monitoring", EN_2: "Highly granular monitoring", EN_3: "Not known", EN_4: "Not known",
+  EN_5: "No energy-focused actions",
+  ORG_1: "High", ORG_2: "Occasional training", ORG_3: "Strong support", ORG_4: "Clearly defined", ORG_5: "Very limited",
+};
+function buildDemoAnswers() {
+  const answers = {};
+  for (const [id, text] of Object.entries(DEMO_ANSWER_TEXT)) {
+    const ind = TOOL_DATA.indicators.find(i => i.id === id);
+    const idx = ind.options.findIndex(o => o.text === text);
+    if (idx !== -1) answers[id] = idx;
+  }
+  return answers;
+}
+
+function newRandomOrder() {
+  const dimOrder = shuffle(TOOL_DATA.dimensions.map(d => d.code));
+  const questionOrder = {};
+  TOOL_DATA.dimensions.forEach(d => {
+    questionOrder[d.code] = shuffle(TOOL_DATA.indicators.filter(i => i.dimension === d.name).map(i => i.id));
+  });
+  return { dimOrder, questionOrder };
+}
+
+function dimByCode(code) { return TOOL_DATA.dimensions.find(d => d.code === code); }
+
+/* ---- Save/resume: persisted locally to this browser only ---- */
+const STORAGE_KEY = 'facilytics_v1_progress';
+function saveProgress() {
+  if (state.isDemo) return; // never let demo data overwrite a real saved assessment
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      step: state.step, answers: state.answers, dimOrder: state.dimOrder,
+      questionOrder: state.questionOrder, metadata: state.metadata,
+    }));
+  } catch (e) { /* storage unavailable — fail silently, nothing else depends on it */ }
+}
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) { return null; }
+}
+function clearProgress() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+}
+function answeredCount(answers) { return Object.keys(answers || {}).length; }
+
+/* =========================================================================
+   3. CALCULATION ENGINE — mirrors the Excel formulas exactly
+      Scoring!E = (score-1)/(5-1)*100, excluding "Not known"
+      Index_Calc!B = AVERAGE of valid scores, blank if validCount < 3
+      Index_Calc!D = avg * weight (blank propagates as 0 in SUM)
+      Index_Calc!B8 = SUM(weighted dims)
+      Index_Calc!B9 = IFS bands on B8
+      Index_Calc!B10 = COUNT(valid) / 25
+========================================================================= */
+function computeResults() {
+  const dimResults = TOOL_DATA.dimensions.map(dim => {
+    const indicators = TOOL_DATA.indicators.filter(i => i.dimension === dim.name);
+    const normalized = indicators.map(ind => {
+      const selIdx = state.answers[ind.id];
+      if (selIdx === undefined) return null;
+      const opt = ind.options[selIdx];
+      if (opt.score === null || opt.score === undefined) return null; // "Not known"
+      return (opt.score - 1) / (5 - 1) * 100;
+    });
+    const valid = normalized.filter(v => v !== null);
+    const validCount = valid.length;
+    const avg = validCount >= 3 ? valid.reduce((a,b) => a+b, 0) / validCount : null;
+    const weighted = avg !== null ? avg * dim.weight : 0;
+    return {
+      dimension: dim.name, code: dim.code, weight: dim.weight,
+      avg, validCount, completeness: validCount / 5, weighted, indicators,
+    };
+  });
+
+  const overallIndex = dimResults.reduce((sum, d) => sum + d.weighted, 0);
+  const level = LEVELS.find(l => overallIndex <= l.max) || LEVELS[LEVELS.length - 1];
+
+  const totalValid = TOOL_DATA.indicators.reduce((n, ind) => {
+    const selIdx = state.answers[ind.id];
+    if (selIdx === undefined) return n;
+    const opt = ind.options[selIdx];
+    return (opt.score !== null && opt.score !== undefined) ? n + 1 : n;
+  }, 0);
+  const dataCompleteness = totalValid / 25;
+
+  let interpretation;
+  if (dataCompleteness >= 0.8) interpretation = 'Results are reasonably reliable';
+  else if (dataCompleteness >= 0.6) interpretation = 'Results are indicative only – interpret cautiously';
+  else interpretation = 'Insufficient data for reliable interpretation';
+
+  const scoredDims = dimResults.filter(d => d.avg !== null);
+  const weakest = scoredDims.length
+    ? scoredDims.reduce((min, d) => d.avg < min.avg ? d : min)
+    : null;
+
+  const answeredScored = TOOL_DATA.indicators.map(ind => {
+    const selIdx = state.answers[ind.id];
+    if (selIdx === undefined) return null;
+    const opt = ind.options[selIdx];
+    if (opt.score === null || opt.score === undefined) return null;
+    return { id: ind.id, dimension: ind.dimension, question: ind.question, opt };
+  }).filter(Boolean).sort((a,b) => a.opt.score - b.opt.score).slice(0, 5);
+
+  return { dimResults, overallIndex, level, dataCompleteness, interpretation, weakest, answeredScored };
+}
+
+function dimCode(dimName) {
+  const d = TOOL_DATA.dimensions.find(x => x.name === dimName);
+  return d ? d.code : '';
+}
+
+/* =========================================================================
+   4. RENDERING
+========================================================================= */
+const app = document.getElementById('app');
+
+function render() {
+  if (state.view === 'intro') app.innerHTML = renderIntro();
+  else if (state.view === 'assessment') app.innerHTML = renderAssessment();
+  else if (state.view === 'methodology') app.innerHTML = renderMethodology();
+  else app.innerHTML = renderResults();
+  attachHandlers();
+  saveProgress();
+  window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+
+  // Move focus to the new view's heading and announce it, for screen-reader users
+  const heading = app.querySelector('h1, h2');
+  if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); }
+  const live = document.getElementById('live-region');
+  if (live) {
+    let msg = '';
+    if (state.view === 'intro') msg = 'Introduction';
+    else if (state.view === 'assessment') {
+      const dim = dimByCode(state.dimOrder[state.step]);
+      msg = `Step ${state.step + 1} of ${state.dimOrder.length}: ${dimDisplayName(dim.code)}, ${answeredCount(state.answers)} of 25 questions answered`;
+    } else if (state.view === 'methodology') msg = 'Methodology and scoring model';
+    else msg = 'Results ready';
+    live.textContent = msg;
+  }
+
+  if (state.view === 'intro') animateIntroGaugePreview();
+}
+
+function animateIntroGaugePreview() {
+  const DEMO_PREVIEW_VALUE = 72;
+  const level = LEVELS.find(l => DEMO_PREVIEW_VALUE <= l.max) || LEVELS[LEVELS.length - 1];
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const needle = document.getElementById('intro-gauge-needle');
+  const numEl = document.getElementById('intro-gauge-number');
+  const levelEl = document.getElementById('intro-gauge-level');
+  if (levelEl) { levelEl.textContent = level.label; levelEl.style.color = level.color; }
+
+  const startAngle = -90; // matches the value=0 position rendered initially
+  const endAngle = (DEMO_PREVIEW_VALUE / 100) * 180 - 90;
+
+  if (reduceMotion) {
+    if (needle) needle.setAttribute('transform', `rotate(${endAngle} 100 100)`);
+    if (numEl) numEl.textContent = DEMO_PREVIEW_VALUE.toFixed(1);
+    return;
+  }
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      const start = performance.now();
+      const duration = 1200;
+      function tick(now) {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        // Drive the SVG transform attribute directly, frame by frame — CSS transitions
+        // don't reliably animate the SVG 3-argument rotate(angle, cx, cy) syntax, since
+        // that isn't valid CSS transform-function syntax (only the 1-argument form is).
+        const currentAngle = startAngle + (endAngle - startAngle) * eased;
+        if (needle) needle.setAttribute('transform', `rotate(${currentAngle} 100 100)`);
+        if (numEl) numEl.textContent = (eased * DEMO_PREVIEW_VALUE).toFixed(1);
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }, 300);
+  });
+}
+
+function spectrumStrip(activeCode) {
+  return TOOL_DATA.dimensions.map(d => {
+    const c = DIM_COLORS[d.code];
+    const active = d.code === activeCode;
+    return `<div class="h-2.5 rounded-full ${active ? '' : 'opacity-60'}" style="flex:${d.weight} 0 0%; background:${c};"></div>`;
+  }).join('');
+}
+
+function renderIntro() {
+  const saved = loadProgress();
+  const resumeCount = saved ? answeredCount(saved.answers) : 0;
+  const chips = TOOL_DATA.dimensions.map(d => {
+    const c = DIM_COLORS[d.code];
+    return `
+    <div class="flex items-center justify-between bg-panel border border-hair rounded-xl px-4 py-3 shadow-sm" style="border-left: 4px solid ${c};">
+      <div>
+        <span class="font-mono text-xs tracking-wider" style="color:${c}">${d.code}</span>
+        <div class="text-sm text-ink mt-0.5 font-medium">${dimDisplayName(d.code)}</div>
+      </div>
+      <div class="font-mono text-dim text-sm">${Math.round(d.weight*100)}%</div>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="fade-in">
+    <div class="absolute -top-10 -left-16 w-72 h-72 rounded-full blob opacity-30" style="background:#7C5CFC;"></div>
+    <div class="absolute top-10 right-0 w-64 h-64 rounded-full blob opacity-25" style="background:#00B8D9;"></div>
+    <div class="absolute top-60 -left-10 w-56 h-56 rounded-full blob opacity-20" style="background:#27AE60;"></div>
+
+    <div class="relative">
+      <div class="flex items-center justify-between gap-3 mb-8 flex-wrap">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center btn-grad">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+          </div>
+          <span class="font-mono text-dim text-xs tracking-[0.2em]">FACILYTICS · v0.1</span>
+        </div>
+        <button data-goto-methodology class="font-mono text-xs text-dim hover:text-ink transition-colors underline decoration-dotted underline-offset-4">Methodology & scoring model</button>
+      </div>
+
+      <div class="grid lg:grid-cols-[1fr_300px] gap-10 items-start">
+        <div>
+          <div class="flex gap-1.5 max-w-md mb-6">${spectrumStrip(null)}</div>
+
+          <h1 class="font-display font-700 text-3xl sm:text-5xl leading-tight text-ink max-w-xl">
+            Know exactly how ready your HVAC is for <span class="grad-text">predictive maintenance.</span>
+          </h1>
+          <p class="text-dim mt-5 max-w-xl leading-relaxed text-[15px]">
+            A structured readiness check for Internet of Things-enabled predictive maintenance across
+            commercial and institutional facilities of every kind.
+            25 indicators across five dimensions roll into a single weighted index from 0–100, backed by
+            a scoring model you can inspect end to end.
+          </p>
+
+          <div class="flex gap-8 mt-7">
+            <div><div class="font-display text-3xl grad-text">25</div><div class="font-mono text-[11px] text-dim tracking-wider mt-0.5">INDICATORS</div></div>
+            <div><div class="font-display text-3xl grad-text">5</div><div class="font-mono text-[11px] text-dim tracking-wider mt-0.5">DIMENSIONS</div></div>
+            <div><div class="font-display text-3xl grad-text">0–100</div><div class="font-mono text-[11px] text-dim tracking-wider mt-0.5">READINESS INDEX</div></div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-3 mt-8 max-w-xl">
+            ${chips}
+          </div>
+
+          <div class="mt-8 max-w-xl border border-hair bg-panel2 rounded-xl p-5">
+            <div class="font-mono text-xs tracking-wider mb-2" style="color:#F2994A;">BEFORE YOU START</div>
+            <ul class="text-sm text-dim space-y-1.5 leading-relaxed list-disc list-inside">
+              <li>Each dimension needs at least 3 of 5 questions answered to produce a score.</li>
+              <li>Use "Not known" only when information is genuinely unavailable — it's excluded from scoring, not treated as zero.</li>
+              <li>Takes about 8–10 minutes to complete.</li>
+            </ul>
+          </div>
+
+          <div class="mt-8 max-w-xl">
+            <div class="font-mono text-xs tracking-wider mb-2 text-dim">ASSESSMENT DETAILS <span class="text-dim/60">(optional, appears on your report)</span></div>
+            <div class="grid sm:grid-cols-3 gap-3">
+              <input data-meta="facility" value="${escapeAttr(state.metadata.facility)}" placeholder="Facility / organisation" class="border border-hair bg-panel rounded-lg px-3 py-2.5 text-sm text-ink placeholder:text-dim/70" />
+              <input data-meta="assessor" value="${escapeAttr(state.metadata.assessor)}" placeholder="Assessor name" class="border border-hair bg-panel rounded-lg px-3 py-2.5 text-sm text-ink placeholder:text-dim/70" />
+              <input data-meta="date" type="date" value="${escapeAttr(state.metadata.date)}" class="border border-hair bg-panel rounded-lg px-3 py-2.5 text-sm text-ink" />
+            </div>
+          </div>
+
+          <div class="mt-9 flex flex-wrap items-center gap-4">
+            <button id="start-btn" class="inline-flex items-center gap-2 btn-grad text-white font-semibold px-7 py-3.5 rounded-full transition-all">
+              ${resumeCount > 0 ? 'Start over' : 'Begin assessment'}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+            ${resumeCount > 0 ? `
+            <button id="resume-btn" class="inline-flex items-center gap-2 border border-hair bg-panel text-ink font-semibold px-6 py-3.5 rounded-full hover:border-[#00B8D9] transition-colors">
+              Resume assessment
+              <span class="font-mono text-xs text-dim">(${resumeCount}/25 answered)</span>
+            </button>` : ''}
+            <button id="demo-btn" class="font-mono text-xs text-dim hover:text-ink transition-colors underline decoration-dotted underline-offset-4">
+              View a live demo →
+            </button>
+          </div>
+        </div>
+
+        <div class="border border-hair bg-panel rounded-2xl p-6 shadow-sm lg:sticky lg:top-8">
+          <div class="font-mono text-[11px] text-dim tracking-wider mb-2">LIVE SCORING PREVIEW</div>
+          ${renderGauge(0, LEVELS[0], 'intro-gauge-needle')}
+          <div class="text-center -mt-2">
+            <div class="font-display text-3xl text-ink"><span id="intro-gauge-number">0.0</span><span class="text-base text-dim">/100</span></div>
+            <div id="intro-gauge-level" class="font-mono text-xs text-dim mt-1">Every answer moves the needle</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderMethodology() {
+  const dimRows = TOOL_DATA.dimensions.map(d => {
+    const c = DIM_COLORS[d.code];
+    return `
+    <div class="border border-hair bg-panel rounded-xl px-4 py-3 shadow-sm" style="border-left: 4px solid ${c};">
+      <div class="flex items-center justify-between">
+        <span class="font-mono text-xs" style="color:${c}">${d.code}</span>
+        <span class="font-mono text-dim text-xs">${Math.round(d.weight*100)}% weight</span>
+      </div>
+      <div class="text-sm text-ink font-medium mt-0.5">${dimDisplayName(d.code)}</div>
+    </div>`;
+  }).join('');
+
+  const levelRows = LEVELS.map(l => `
+    <div class="flex items-center gap-3 text-sm">
+      <span class="w-3 h-3 rounded-full flex-shrink-0" style="background:${l.color}"></span>
+      <span class="text-ink">${l.label}</span>
+      <span class="font-mono text-dim text-xs ml-auto">≤ ${l.max}</span>
+    </div>`).join('');
+
+  return `
+  <div class="fade-in">
+    <button id="methodology-back-btn" class="font-mono text-dim text-xs hover:text-ink transition-colors mb-6 inline-flex items-center gap-1">← Back</button>
+
+    <h1 class="font-display text-3xl text-ink mb-2">Methodology & Scoring Model</h1>
+    <p class="text-dim text-[15px] leading-relaxed max-w-2xl mb-8">
+      How this tool turns 25 answers into a single Predictive Maintenance Readiness Index, and where that model comes from.
+    </p>
+
+    <div class="border border-hair bg-panel2 rounded-xl p-5 max-w-2xl mb-8">
+      <div class="font-mono text-xs tracking-wider mb-2" style="color:#27AE60;">✓ VERIFIED AGAINST THE SOURCE MODEL</div>
+      <p class="text-sm text-dim leading-relaxed">
+        The indicators, dimension weights, and scoring thresholds used here were developed through a structured
+        research process combining quantitative and qualitative data analysis, rather than being set arbitrarily.
+        Separately, this application's arithmetic — normalisation, dimension averaging, weighting, and maturity-band
+        assignment — has been checked step by step against the original reference model's own worked calculations
+        and produces identical results.
+      </p>
+    </div>
+
+    <h2 class="font-display text-xl text-ink mb-3">The five dimensions</h2>
+    <p class="text-sm text-dim leading-relaxed max-w-2xl mb-4">
+      Each dimension is scored from 5 indicator questions and contributes to the overall index in proportion to its weight below.
+    </p>
+    <div class="grid sm:grid-cols-2 gap-3 mb-8">${dimRows}</div>
+
+    <h2 class="font-display text-xl text-ink mb-3">How a single answer becomes a score</h2>
+    <ol class="text-sm text-dim leading-relaxed space-y-2 list-decimal list-inside max-w-2xl mb-8">
+      <li>Each question offers 5 substantive answer options plus "Not known." The 5 options map to a raw score of 1–5, low to high maturity.</li>
+      <li>That raw score is normalised to a 0–100 scale: <span class="font-mono text-ink">(score − 1) ÷ 4 × 100</span>.</li>
+      <li>"Not known" is excluded from scoring entirely — it is never treated as a zero, since that would unfairly penalise genuine uncertainty.</li>
+    </ol>
+
+    <h2 class="font-display text-xl text-ink mb-3">How a dimension gets its score</h2>
+    <p class="text-sm text-dim leading-relaxed max-w-2xl mb-8">
+      A dimension's score is the average of its 5 indicators' normalised scores — but only if at least
+      <span class="text-ink font-medium">3 of the 5</span> were actually answered. Fall short of that, and the dimension
+      is marked "insufficient data" rather than scored on incomplete information.
+    </p>
+
+    <h2 class="font-display text-xl text-ink mb-3">How the overall index is calculated</h2>
+    <p class="text-sm text-dim leading-relaxed max-w-2xl mb-8">
+      The five dimension scores are combined into one 0–100 index using their weights shown above — a
+      weighted sum, not a simple average, so Internet of Things Monitoring Capability (25%) counts for more than
+      Organisational Capability (15%). A dimension with insufficient data contributes 0 to that sum rather than
+      being skipped, matching the source model's own behaviour.
+    </p>
+
+    <h2 class="font-display text-xl text-ink mb-3">Maturity levels</h2>
+    <div class="border border-hair bg-panel rounded-xl p-5 max-w-md space-y-2.5 mb-8">${levelRows}</div>
+
+    <h2 class="font-display text-xl text-ink mb-3">Data completeness & reliability</h2>
+    <p class="text-sm text-dim leading-relaxed max-w-2xl mb-2">
+      Completeness is the share of all 25 questions actually answered (excluding "Not known"):
+    </p>
+    <ul class="text-sm text-dim leading-relaxed list-disc list-inside max-w-2xl mb-8 space-y-1">
+      <li><span class="text-ink">80% or higher</span> — results are reasonably reliable</li>
+      <li><span class="text-ink">60–79%</span> — results are indicative only, interpret cautiously</li>
+      <li><span class="text-ink">below 60%</span> — insufficient data for reliable interpretation</li>
+    </ul>
+
+    <p class="text-[11px] text-dim/70 italic max-w-2xl">
+      The "What This Means For You" narrative shown with results is separate, generated interpretive guidance —
+      it is not part of the scoring formulas described above.
+    </p>
+  </div>`;
+}
+
+function expandAcronyms(text) {
+  if (!text) return text;
+  return text
+    .replace(/CMMS\/BMS/g, 'computerized maintenance management system or building management system')
+    .replace(/\bCMMS\b/g, 'computerized maintenance management system')
+    .replace(/\bBMS\b/g, 'building management system')
+    .replace(/\bPdM\b/g, 'predictive maintenance');
+}
+
+function escapeAttr(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+}
+
+function renderAssessment() {
+  const dimCode = state.dimOrder[state.step];
+  const dim = dimByCode(dimCode);
+  const dimColor = DIM_COLORS[dim.code];
+  const orderedIds = state.questionOrder[dim.code] || TOOL_DATA.indicators.filter(i => i.dimension === dim.name).map(i => i.id);
+  const indicators = orderedIds.map(id => TOOL_DATA.indicators.find(i => i.id === id));
+  const totalAnswered = Object.keys(state.answers).length;
+  const answeredInCurrentDim = indicators.filter(x => state.answers[x.id] !== undefined).length;
+  const dimScorable = answeredInCurrentDim >= 3;
+
+  const tabs = state.dimOrder.map((code, i) => {
+    const d = dimByCode(code);
+    const c = DIM_COLORS[d.code];
+    const dIndicators = TOOL_DATA.indicators.filter(x => x.dimension === d.name);
+    const answeredInDim = dIndicators.filter(x => state.answers[x.id] !== undefined).length;
+    const scorable = answeredInDim >= 3;
+    const pct = (answeredInDim / 5) * 100;
+    const active = i === state.step;
+    return `
+      <button data-step="${i}" role="tab" aria-selected="${active}" tabindex="${active ? 0 : -1}"
+        title="${escapeAttr(dimDisplayName(d.code))}"
+        class="flex flex-col gap-1.5 text-left rounded-lg px-1 pt-1.5 pb-2 transition-colors ${active ? 'bg-panel2' : 'hover:bg-panel2/60'}"
+        style="flex: ${d.weight} 0 0%; ${active ? `box-shadow: inset 0 -2px 0 ${c};` : ''}">
+        <div class="h-1.5 rounded-full bg-hair overflow-hidden">
+          <div class="seg h-full rounded-full" style="width:${pct}%; background:${c}; opacity:${active ? 1 : 0.5}"></div>
+        </div>
+        <span class="font-mono text-[10px] tracking-wider flex items-center gap-1" style="color:${active ? c : '#5C7568'}">
+          ${d.code}${scorable ? ' ✓' : ''}
+        </span>
+      </button>`;
+  }).join('');
+
+  const questions = indicators.map(ind => {
+    const selected = state.answers[ind.id];
+    const selectedOpt = selected !== undefined ? ind.options[selected] : null;
+    const opts = ind.options.map((opt, idx) => {
+      const isUnknown = opt.text === 'Not known';
+      const isSel = selected === idx;
+      const selStyle = isSel && !isUnknown ? `border-color:${dimColor}; background-color:${dimColor}18;` : '';
+      const tabIdx = isSel ? 0 : (selected === undefined && idx === 0 ? 0 : -1);
+      return `
+        <button data-ind="${ind.id}" data-idx="${idx}" role="radio" aria-checked="${isSel}" tabindex="${tabIdx}"
+          class="option-card ${isSel ? 'selected' : ''} ${isUnknown ? 'unknown' : ''}
+          w-full text-left border border-hair ${isUnknown ? 'border-dashed' : ''} rounded-lg px-4 py-3 bg-panel flex items-start gap-3"
+          style="${selStyle}">
+          <span class="mt-0.5 w-4 h-4 rounded-full border flex-shrink-0" style="${isSel && !isUnknown ? `border-color:${dimColor}; background-color:${dimColor};` : (isSel ? 'border-color:#94a3b8;background-color:#94a3b8;' : 'border-color:#DCEBE2;')}"></span>
+          <span class="text-sm ${isUnknown ? 'text-dim italic' : 'text-ink'}">${expandAcronyms(opt.text)}</span>
+        </button>`;
+    }).join('');
+
+    const infoPanel = (selectedOpt && selectedOpt.text !== 'Not known' && selectedOpt.description) ? `
+      <div class="mt-3 flex items-start gap-2 rounded-lg px-3 py-2.5" style="background:${dimColor}0F;">
+        <span class="font-mono text-xs mt-0.5" style="color:${dimColor}">ⓘ</span>
+        <p class="text-xs text-dim leading-relaxed">${expandAcronyms(selectedOpt.description)}</p>
+      </div>` : '';
+
+    return `
+      <div class="border border-hair bg-panel rounded-xl p-5 sm:p-6 shadow-sm" style="border-left: 4px solid ${dimColor};">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="font-mono text-xs font-semibold" style="color:${dimColor}" title="Reference ID: ${ind.id}">${INDICATOR_LABELS[ind.id] || ind.id}</span>
+          <span class="h-px flex-1 bg-hair"></span>
+        </div>
+        <p class="text-ink text-[15px] leading-relaxed mb-4" id="q-${ind.id}">${expandAcronyms(ind.question)}</p>
+        <div class="space-y-2" data-optgroup role="radiogroup" aria-labelledby="q-${ind.id}">${opts}</div>
+        ${infoPanel}
+      </div>`;
+  }).join('');
+
+  const isLast = state.step === state.dimOrder.length - 1;
+
+  return `
+  <div class="fade-in">
+    <div class="flex items-center justify-between mb-2">
+      <span class="font-mono text-dim text-xs">${totalAnswered} / 25 answered</span>
+      <div class="flex gap-4">
+        <button id="jump-results-btn" class="font-mono text-dim text-xs hover:text-ink transition-colors">View results →</button>
+        <button id="restart-btn" class="font-mono text-dim text-xs hover:text-ink transition-colors">Restart</button>
+      </div>
+    </div>
+    <div class="flex gap-1 mb-8 overflow-x-auto" role="tablist" aria-label="Assessment dimensions">${tabs}</div>
+
+    <div class="relative overflow-hidden rounded-2xl mb-6 border border-hair" style="background-color:${dimColor}0D; background-image:${DIM_BACKGROUNDS[dim.code](dimColor)}; background-size:160px 160px;">
+      <div class="relative p-6 sm:p-8">
+        <div class="flex items-center gap-3 mb-1 flex-wrap">
+          <span class="font-mono text-xs px-2.5 py-1 rounded-full text-white" style="background:${dimColor}">${dim.code}</span>
+          <span class="font-mono text-dim text-xs">weight ${Math.round(dim.weight*100)}%</span>
+        </div>
+        <h2 class="font-display text-2xl sm:text-3xl text-ink mt-1">${dimDisplayName(dim.code)}</h2>
+        <div class="mt-3">
+          <span class="font-mono text-[11px] px-2 py-1 rounded-full" style="${dimScorable ? 'background:#27AE601A;color:#1DB870;' : 'background:#F2994A1A;color:#F2994A;'}">
+            ${answeredInCurrentDim}/5 answered — ${dimScorable ? 'scorable' : `need ${3 - answeredInCurrentDim} more for a score`}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-4">${questions}</div>
+
+    <div class="flex items-center justify-between mt-9">
+      <button id="back-btn" class="${state.step === 0 ? 'invisible' : ''} font-mono text-sm text-dim hover:text-ink transition-colors px-4 py-2">
+        ← Back
+      </button>
+      <button id="next-btn" class="inline-flex items-center gap-2 btn-grad text-white font-semibold px-6 py-3 rounded-full transition-all">
+        ${isLast ? 'View results' : 'Next dimension'}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>`;
+}
+
+function renderGauge(value, level, needleId) {
+  const angle = (value / 100) * 180;
+  const cx = 100, cy = 100, r = 78;
+  const bandArcs = LEVELS.map((l, i) => {
+    const startPct = i === 0 ? 0 : LEVELS[i-1].max;
+    const a0 = (startPct/100)*180, a1 = (l.max/100)*180;
+    const p0 = polar(cx, cy, r, a0), p1 = polar(cx, cy, r, a1);
+    const largeArc = (a1 - a0) > 180 ? 1 : 0;
+    return `<path d="M ${p0.x} ${p0.y} A ${r} ${r} 0 ${largeArc} 1 ${p1.x} ${p1.y}" stroke="${l.color}" stroke-width="15" fill="none" stroke-linecap="round"/>`;
+  }).join('');
+
+  return `
+  <svg viewBox="0 0 200 118" class="w-full max-w-[280px] mx-auto">
+    ${bandArcs}
+    <line ${needleId ? `id="${needleId}"` : ''} class="needle" x1="100" y1="100" x2="100" y2="30" stroke="#0F2A1F" stroke-width="3" stroke-linecap="round"
+      transform="rotate(${angle - 90} 100 100)" />
+    <circle cx="100" cy="100" r="7" fill="#0F2A1F"/>
+    <circle cx="100" cy="100" r="7" fill="none" stroke="${level.color}" stroke-width="2.5"/>
+  </svg>`;
+}
+function polar(cx, cy, r, angleDeg) {
+  const rad = (angleDeg - 180) * Math.PI / 180;
+  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+}
+
+function renderResults() {
+  const r = computeResults();
+
+  const dimRows = r.dimResults.map(d => {
+    const c = DIM_COLORS[d.code];
+    const insufficient = d.avg === null;
+    const pct = insufficient ? 0 : d.avg;
+    const isWeakest = r.weakest && r.weakest.code === d.code;
+    return `
+      <div class="border ${isWeakest ? '' : 'border-hair'} bg-panel rounded-xl p-4 shadow-sm" style="${isWeakest ? 'border:2px solid #F2994A;' : ''} border-left: 4px solid ${c};">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2">
+            <span class="font-mono text-xs" style="color:${c}">${d.code}</span>
+            <span class="text-sm text-ink font-medium">${dimDisplayName(d.code)}</span>
+            ${isWeakest ? '<span class="font-mono text-[10px] text-white rounded-full px-2 py-0.5" style="background:#F2994A;">WEAKEST</span>' : ''}
+          </div>
+          <span class="font-mono text-xs text-dim">wt ${Math.round(d.weight*100)}%</span>
+        </div>
+        <div class="h-2.5 rounded-full bg-hair overflow-hidden mb-2">
+          <div class="seg h-full rounded-full" style="width:${pct}%; background:${insufficient ? '#B8C6BE' : c};"></div>
+        </div>
+        <div class="flex items-center justify-between font-mono text-xs">
+          <span class="${insufficient ? 'text-dim italic' : 'text-ink'}">${insufficient ? 'Insufficient data — needs ≥3 of 5 answered' : d.avg.toFixed(1) + ' / 100'}</span>
+          <span class="text-dim">${d.validCount}/5 answered</span>
+        </div>
+      </div>`;
+  }).join('');
+
+  const recs = r.answeredScored.map(a => {
+    const c = DIM_COLORS[dimCode(a.dimension)];
+    return `
+    <div class="border border-hair bg-panel rounded-xl p-4 shadow-sm" style="border-left: 4px solid ${c};">
+      <div class="flex items-center gap-2 mb-1 flex-wrap">
+        <span class="font-mono text-xs font-semibold" style="color:${c}" title="Reference ID: ${a.id}">${INDICATOR_LABELS[a.id] || a.id}</span>
+        <span class="font-mono text-xs text-dim">score ${a.opt.score}/5</span>
+      </div>
+      <p class="text-sm text-dim mb-2">${expandAcronyms(a.question)}</p>
+      <p class="text-sm text-ink">→ ${expandAcronyms(a.opt.recommendation)}</p>
+    </div>`;
+  }).join('') || `<p class="text-dim text-sm">No priority gaps identified from the answers provided.</p>`;
+
+  const metaLine = [state.metadata.facility, state.metadata.assessor, state.metadata.date]
+    .filter(Boolean).length > 0 ? `
+    <div class="flex flex-wrap gap-x-5 gap-y-1 text-xs text-dim mb-4 font-mono">
+      ${state.metadata.facility ? `<span>Facility: <span class="text-ink">${escapeAttr(state.metadata.facility)}</span></span>` : ''}
+      ${state.metadata.assessor ? `<span>Assessor: <span class="text-ink">${escapeAttr(state.metadata.assessor)}</span></span>` : ''}
+      ${state.metadata.date ? `<span>Date: <span class="text-ink">${escapeAttr(state.metadata.date)}</span></span>` : ''}
+    </div>` : '';
+
+  const demoBanner = state.isDemo ? `
+    <div class="flex items-center justify-between gap-4 flex-wrap border rounded-xl px-4 py-3 mb-6" style="border-color:#F2994A; background:#F2994A0F;">
+      <span class="text-sm text-ink">You're viewing <span class="font-semibold">sample demo data</span>, not a real assessment.</span>
+      <button id="start-own-btn" class="no-print font-mono text-xs text-white px-4 py-2 rounded-full btn-grad">Start your own assessment</button>
+    </div>` : '';
+
+  return `
+  <div class="fade-in">
+    <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
+      <h2 class="font-display text-2xl text-ink">Assessment Results</h2>
+      <div class="flex gap-3 no-print flex-wrap items-center">
+        <button data-goto-methodology class="font-mono text-xs text-dim hover:text-ink transition-colors">Methodology</button>
+        <button id="edit-answers-btn" class="font-mono text-xs text-dim hover:text-ink transition-colors">← Edit answers</button>
+        <span class="w-px h-3 bg-hair"></span>
+        <button id="export-csv-btn" class="font-mono text-xs text-dim hover:text-ink transition-colors">Export CSV</button>
+        <button id="export-json-btn" class="font-mono text-xs text-dim hover:text-ink transition-colors">Export JSON</button>
+        <button id="download-pdf-btn" class="font-mono text-xs text-dim hover:text-ink transition-colors">Download PDF</button>
+        <button id="print-btn" class="font-mono text-xs text-dim hover:text-ink transition-colors">Print</button>
+        <span class="w-px h-3 bg-hair"></span>
+        <button id="restart-btn" class="font-mono text-xs text-dim hover:text-ink transition-colors">Restart</button>
+      </div>
+    </div>
+
+    ${demoBanner}
+
+    <div id="report-content">
+    ${state.isDemo ? '<p class="text-xs font-mono text-dim mb-3">⚠ Sample demonstration data — not a real facility assessment.</p>' : ''}
+    ${metaLine}
+    <div class="flex gap-1.5 mb-6 max-w-md">${spectrumStrip(null)}</div>
+
+    <div class="grid sm:grid-cols-[280px_1fr] gap-8 items-center border border-hair bg-panel rounded-2xl p-6 sm:p-8 mb-8 shadow-sm">
+      ${renderGauge(r.overallIndex, r.level)}
+      <div>
+        <div class="font-mono text-dim text-xs tracking-wider mb-1">OVERALL PREDICTIVE MAINTENANCE INDEX</div>
+        <div class="font-display text-5xl text-ink mb-2">${r.overallIndex.toFixed(1)}<span class="text-xl text-dim">/100</span></div>
+        <div class="inline-block font-mono text-sm px-3 py-1 rounded-full text-white" style="background:${r.level.color}">${r.level.label}</div>
+        <div class="mt-4 text-sm text-dim">
+          Data completeness: <span class="text-ink font-mono">${Math.round(r.dataCompleteness*100)}%</span> — ${r.interpretation}
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 mb-8 text-xs text-dim">
+      <span style="color:#1DB870;">✓</span> Calculation logic verified against the source model — grounded in rigorous quantitative and qualitative data analysis.
+    </div>
+
+    <h3 class="font-mono text-dim text-xs tracking-wider mb-3">DIMENSION BREAKDOWN</h3>
+    <div class="grid sm:grid-cols-2 gap-3 mb-8">${dimRows}</div>
+
+    ${renderNarrative(r)}
+
+    <h3 class="font-mono text-dim text-xs tracking-wider mb-3">PRIORITY RECOMMENDATIONS</h3>
+    <div class="space-y-3">${recs}</div>
+    </div>
+  </div>`;
+}
+
+function renderNarrative(r) {
+  const levelIdx = LEVELS.indexOf(r.level);
+  const variants = LEVEL_NARRATIVES[levelIdx];
+  const h = hashAnswers(state.answers);
+  const narrative = variants[h % variants.length];
+
+  const dimNudge = r.weakest ? DIM_NUDGES[r.weakest.code][(h >>> 3) % DIM_NUDGES[r.weakest.code].length] : null;
+  const weakestColor = r.weakest ? DIM_COLORS[r.weakest.code] : null;
+
+  return `
+  <div class="mb-8">
+    <h3 class="font-mono text-dim text-xs tracking-wider mb-3">WHAT THIS MEANS FOR YOU</h3>
+    <div class="border border-hair bg-panel rounded-xl p-5 sm:p-6 shadow-sm space-y-4" style="border-left: 4px solid ${r.level.color};">
+      <p class="text-ink text-[15px] leading-relaxed">${narrative.summary}</p>
+      <div>
+        <div class="font-mono text-[11px] tracking-wider mb-1" style="color:${r.level.color}">ENERGY & EFFICIENCY IMPACT</div>
+        <p class="text-sm text-dim leading-relaxed">${narrative.energyImpact}</p>
+      </div>
+      <div>
+        <div class="font-mono text-[11px] tracking-wider mb-1" style="color:${r.level.color}">RECOMMENDATION</div>
+        <p class="text-sm text-dim leading-relaxed">${narrative.recommendation}</p>
+      </div>
+      ${dimNudge ? `
+      <div class="rounded-lg px-4 py-3 mt-1" style="background:${weakestColor}12;">
+        <div class="font-mono text-[11px] tracking-wider mb-1" style="color:${weakestColor}">FOCUS AREA — ${r.weakest.code}</div>
+        <p class="text-sm text-ink leading-relaxed">${dimNudge}</p>
+      </div>` : ''}
+      <p class="text-[11px] text-dim/70 italic pt-1">This narrative is generated guidance, not part of the original scoring model — treat it as a starting point for discussion, not a formal engineering assessment.</p>
+    </div>
+  </div>`;
+}
+
+/* =========================================================================
+   5. EVENT HANDLERS
+========================================================================= */
+function attachHandlers() {
+  const start = document.getElementById('start-btn');
+  if (start) start.onclick = () => {
+    clearProgress();
+    const order = newRandomOrder();
+    state.view = 'assessment'; state.step = 0; state.answers = {}; state.isDemo = false;
+    state.dimOrder = order.dimOrder; state.questionOrder = order.questionOrder;
+    render();
+  };
+
+  const resume = document.getElementById('resume-btn');
+  if (resume) resume.onclick = () => {
+    const saved = loadProgress();
+    if (saved) {
+      state.answers = saved.answers || {};
+      state.step = saved.step || 0;
+      state.dimOrder = saved.dimOrder || state.dimOrder;
+      state.questionOrder = saved.questionOrder || state.questionOrder;
+      state.metadata = saved.metadata || state.metadata;
+    }
+    state.isDemo = false;
+    state.view = 'assessment';
+    render();
+  };
+
+  const demo = document.getElementById('demo-btn');
+  if (demo) demo.onclick = () => {
+    state.answers = buildDemoAnswers();
+    state.metadata = { facility: 'Sample Facility (Demo Data)', assessor: 'Demo', date: todayISO() };
+    state.isDemo = true;
+    state.view = 'results';
+    render();
+  };
+
+  document.querySelectorAll('[data-ind]').forEach(btn => {
+    btn.onclick = () => {
+      state.answers[btn.dataset.ind] = parseInt(btn.dataset.idx, 10);
+      render();
+    };
+  });
+
+  document.querySelectorAll('[data-step]').forEach(btn => {
+    btn.onclick = () => { state.step = parseInt(btn.dataset.step, 10); render(); };
+  });
+
+  const jumpResults = document.getElementById('jump-results-btn');
+  if (jumpResults) jumpResults.onclick = () => { state.view = 'results'; render(); };
+
+  const back = document.getElementById('back-btn');
+  if (back) back.onclick = () => { state.step = Math.max(0, state.step - 1); render(); };
+
+  const next = document.getElementById('next-btn');
+  if (next) next.onclick = () => {
+    if (state.step === state.dimOrder.length - 1) { state.view = 'results'; }
+    else { state.step += 1; }
+    render();
+  };
+
+  const restart = document.getElementById('restart-btn');
+  if (restart) restart.onclick = () => {
+    if (confirm('Restart the assessment? All answers will be cleared.')) {
+      clearProgress();
+      state.view = 'intro'; state.step = 0; state.answers = {}; state.isDemo = false;
+      state.metadata = { facility: '', assessor: '', date: todayISO() };
+      render();
+    }
+  };
+
+  const editAnswers = document.getElementById('edit-answers-btn');
+  if (editAnswers) editAnswers.onclick = () => { state.view = 'assessment'; render(); };
+
+  const startOwn = document.getElementById('start-own-btn');
+  if (startOwn) startOwn.onclick = () => {
+    clearProgress();
+    const order = newRandomOrder();
+    state.view = 'assessment'; state.step = 0; state.answers = {}; state.isDemo = false;
+    state.metadata = { facility: '', assessor: '', date: todayISO() };
+    state.dimOrder = order.dimOrder; state.questionOrder = order.questionOrder;
+    render();
+  };
+
+  document.querySelectorAll('[data-meta]').forEach(input => {
+    input.oninput = () => { state.metadata[input.dataset.meta] = input.value; saveProgress(); };
+  });
+
+  const methLink = document.querySelectorAll('[data-goto-methodology]');
+  methLink.forEach(el => el.onclick = () => { state.previousView = state.view; state.view = 'methodology'; render(); });
+
+  const methBack = document.getElementById('methodology-back-btn');
+  if (methBack) methBack.onclick = () => { state.view = state.previousView || 'intro'; render(); };
+
+  const print = document.getElementById('print-btn');
+  if (print) print.onclick = () => window.print();
+
+  const downloadPdf = document.getElementById('download-pdf-btn');
+  if (downloadPdf) downloadPdf.onclick = () => downloadReportAsPdf(downloadPdf);
+
+  const exportCsv = document.getElementById('export-csv-btn');
+  if (exportCsv) exportCsv.onclick = () => downloadDataAsCsv();
+
+  const exportJson = document.getElementById('export-json-btn');
+  if (exportJson) exportJson.onclick = () => downloadDataAsJson();
+}
+
+// Raw data export — for aggregating multiple respondents' answers into one
+// dataset for external analysis (e.g. a validation study). Every row/field
+// here is either a workbook-sourced fact or something the person explicitly
+// entered — never the generated narrative text, which lives in the report only.
+function buildExportRecord() {
+  const r = computeResults();
+  const indicatorRows = TOOL_DATA.indicators.map(ind => {
+    const selIdx = state.answers[ind.id];
+    const opt = selIdx !== undefined ? ind.options[selIdx] : null;
+    const dim = TOOL_DATA.dimensions.find(d => d.name === ind.dimension);
+    return {
+      dimension_code: dim.code,
+      dimension_name: ind.dimension,
+      indicator_id: ind.id,
+      indicator_label: INDICATOR_LABELS[ind.id] || ind.id,
+      question: ind.question,
+      selected_answer: opt ? opt.text : null,
+      raw_score_1_5: opt && opt.score !== null && opt.score !== undefined ? opt.score : null,
+      normalized_score_0_100: opt && opt.score !== null && opt.score !== undefined ? Math.round(((opt.score - 1) / 4) * 100 * 100) / 100 : null,
+    };
+  });
+  const dimensionSummary = r.dimResults.map(d => ({
+    dimension_code: d.code,
+    dimension_name: d.dimension,
+    weight: d.weight,
+    average_score_0_100: d.avg !== null ? Math.round(d.avg * 100) / 100 : null,
+    valid_responses: d.validCount,
+    scorable: d.validCount >= 3,
+  }));
+  return {
+    facility: state.metadata.facility || null,
+    assessor: state.metadata.assessor || null,
+    date: state.metadata.date || null,
+    is_demo_data: state.isDemo,
+    exported_at: new Date().toISOString(),
+    overall_index_0_100: Math.round(r.overallIndex * 100) / 100,
+    maturity_level: r.level.label,
+    data_completeness_pct: Math.round(r.dataCompleteness * 10000) / 100,
+    interpretation: r.interpretation,
+    indicators: indicatorRows,
+    dimensions: dimensionSummary,
+  };
+}
+
+async function triggerDownload(filename, content, mimeType) {
+  const blob = (content instanceof Blob) ? content : new Blob([content], { type: mimeType });
+  // When running as a published Claude artifact, window.claude exists and a plain
+  // <a download> click is silently inert — the platform requires going through the
+  // downloads capability instead, which shows the viewer a save confirmation.
+  if (window.claude && typeof window.claude.use === 'function') {
+    try {
+      const downloads = await window.claude.use('downloads');
+      if (downloads) { await downloads.save({ filename, data: blob }); return; }
+    } catch (e) { /* declined, unavailable, etc. — fall through to the classic method below */ }
+  }
+  // Standalone file (opened directly, or self-hosted elsewhere): classic browser download.
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function exportFilenameBase() {
+  const namePart = (state.metadata.facility || 'assessment').replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+  return `facilytics-${namePart}-${state.metadata.date || todayISO()}`;
+}
+
+function csvEscape(val) {
+  if (val === null || val === undefined) return '';
+  const s = String(val);
+  return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+function downloadDataAsCsv() {
+  const record = buildExportRecord();
+  const cols = ['dimension_code', 'dimension_name', 'indicator_id', 'indicator_label', 'question',
+    'selected_answer', 'raw_score_1_5', 'normalized_score_0_100'];
+  const metaCols = ['facility', 'assessor', 'date', 'is_demo_data', 'overall_index_0_100', 'maturity_level', 'data_completeness_pct'];
+  const header = [...metaCols, ...cols].join(',');
+  const rows = record.indicators.map(ind => {
+    const metaVals = metaCols.map(k => csvEscape(record[k]));
+    const indVals = cols.map(k => csvEscape(ind[k]));
+    return [...metaVals, ...indVals].join(',');
+  });
+  const csv = [header, ...rows].join('\n');
+  triggerDownload(`${exportFilenameBase()}.csv`, csv, 'text/csv;charset=utf-8;');
+}
+
+function downloadDataAsJson() {
+  const record = buildExportRecord();
+  triggerDownload(`${exportFilenameBase()}.json`, JSON.stringify(record, null, 2), 'application/json;charset=utf-8;');
+}
+
+async function downloadReportAsPdf(triggerBtn) {
+  const el = document.getElementById('report-content');
+  if (!el || typeof html2canvas === 'undefined' || typeof window.jspdf === 'undefined') {
+    alert('PDF export isn\'t available right now — try Print instead and save as PDF from the print dialog.');
+    return;
+  }
+  const originalLabel = triggerBtn.textContent;
+  triggerBtn.textContent = 'Generating…';
+  triggerBtn.disabled = true;
+  try {
+    const canvas = await html2canvas(el, { scale: 2, backgroundColor: '#F6FBF7', useCORS: true });
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'pt', 'a4');
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const imgWidth = pageWidth;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    // Slice the tall canvas across multiple A4 pages
+    const pxPerPage = Math.floor((pageHeight * canvas.width) / imgWidth);
+    let renderedPx = 0;
+    let first = true;
+    while (renderedPx < canvas.height) {
+      const sliceHeight = Math.min(pxPerPage, canvas.height - renderedPx);
+      const pageCanvas = document.createElement('canvas');
+      pageCanvas.width = canvas.width;
+      pageCanvas.height = sliceHeight;
+      const ctx = pageCanvas.getContext('2d');
+      ctx.drawImage(canvas, 0, renderedPx, canvas.width, sliceHeight, 0, 0, canvas.width, sliceHeight);
+      const sliceImgHeight = (sliceHeight * imgWidth) / canvas.width;
+      if (!first) pdf.addPage();
+      pdf.addImage(pageCanvas.toDataURL('image/png'), 'PNG', 0, 0, imgWidth, sliceImgHeight);
+      renderedPx += sliceHeight;
+      first = false;
+    }
+    const namePart = (state.metadata.facility || 'assessment').replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+    const pdfBlob = pdf.output('blob');
+    await triggerDownload(`facilytics-report-${namePart}-${state.metadata.date || todayISO()}.pdf`, pdfBlob, 'application/pdf');
+  } catch (err) {
+    alert('PDF export failed — try Print instead and save as PDF from the print dialog.');
+  } finally {
+    triggerBtn.textContent = originalLabel;
+    triggerBtn.disabled = false;
+  }
+}
+
+/* ---- Keyboard: arrow-key navigation within each question's option group, and across tabs ---- */
+document.addEventListener('keydown', (e) => {
+  const tabBtn = e.target.closest('[data-step]');
+  if (tabBtn) {
+    const tablist = tabBtn.closest('[role="tablist"]');
+    if (tablist) {
+      const tabs = Array.from(tablist.querySelectorAll('[data-step]'));
+      const idx = tabs.indexOf(tabBtn);
+      let newIdx = null;
+      if (e.key === 'ArrowRight') newIdx = (idx + 1) % tabs.length;
+      else if (e.key === 'ArrowLeft') newIdx = (idx - 1 + tabs.length) % tabs.length;
+      else if (e.key === 'Home') newIdx = 0;
+      else if (e.key === 'End') newIdx = tabs.length - 1;
+      if (newIdx !== null) { e.preventDefault(); tabs[newIdx].focus(); tabs[newIdx].click(); }
+    }
+    return;
+  }
+  const btn = e.target.closest('[data-ind]');
+  if (!btn) return;
+  const group = btn.closest('[data-optgroup]');
+  if (!group) return;
+  const opts = Array.from(group.querySelectorAll('[data-ind]'));
+  const idx = opts.indexOf(btn);
+  let newIdx = null;
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') newIdx = (idx + 1) % opts.length;
+  else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') newIdx = (idx - 1 + opts.length) % opts.length;
+  else if (e.key === 'Home') newIdx = 0;
+  else if (e.key === 'End') newIdx = opts.length - 1;
+  if (newIdx !== null) { e.preventDefault(); opts[newIdx].focus(); }
+});
+
+render();
+</script>
+</body>
+</html>
