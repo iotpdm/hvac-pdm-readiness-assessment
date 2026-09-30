@@ -45,11 +45,13 @@
     box-shadow: 0 8px 24px -8px rgba(0,184,217,0.55);
   }
   .btn-grad:hover { filter: brightness(1.06); }
+  .results-tab-hidden { display: none; }
   @media print {
     .no-print { display: none !important; }
     body { background: white !important; }
     * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
     .blob { display: none !important; }
+    .results-tab-hidden { display: block !important; } /* printed/PDF output always includes both tabs */
   }
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 </style>
@@ -160,64 +162,224 @@ const INDICATOR_LABELS = {
 // Selection is deterministic per answer-set (see hashAnswers), not random.
 const LEVEL_NARRATIVES = [
   [ // Level 1 – Reactive
-    { summary: "Maintenance here is largely reactive — HVAC issues are addressed only once they cause a visible failure or occupant complaint.", energyImpact: "Reactive operation typically means equipment runs out of calibration for long stretches between failures, which tends to push energy consumption higher than necessary and shortens asset life.", recommendation: "Start small: pick the two or three HVAC assets most critical to your operations and introduce basic condition checks and a maintenance log before investing in any sensor hardware." },
-    { summary: "At this stage, HVAC upkeep is driven by breakdowns rather than a planned strategy — most effort goes into firefighting rather than prevention.", energyImpact: "Unplanned downtime and emergency repairs often coincide with periods of inefficient or unbalanced operation, quietly inflating the energy bill even when nothing looks obviously wrong.", recommendation: "Before adding technology, focus on process: establish a simple preventive schedule for the highest-risk units and start tracking failure causes so patterns become visible." },
-    { summary: "The current approach treats HVAC maintenance as a response to failure rather than a managed function — a common and understandable starting point.", energyImpact: "Systems that only get attention after breaking tend to drift out of their efficient operating range for extended periods, which adds up in wasted energy across a large HVAC footprint.", recommendation: "A practical first move is a basic asset inventory paired with manufacturer-recommended service intervals — the foundation every later stage builds on." },
-    { summary: "HVAC reliability is currently at the mercy of run-to-failure practices, with little structure guiding when or why maintenance happens.", energyImpact: "This pattern usually correlates with higher energy intensity per area served, since faults affecting efficiency (like refrigerant loss or fouled coils) often go unnoticed until performance visibly degrades.", recommendation: "Introduce a lightweight preventive calendar and nominate one person to own HVAC upkeep — ownership is often the biggest unlock at this stage, more than any single tool." },
+    { summary: "Maintenance here is predominantly reactive — a starting condition the framework underpinning this tool found to be common among resource-constrained facilities, driven less by lack of awareness than by a gap between recognising HVAC criticality and having the capacity to act on it.", energyImpact: "Reactive maintenance forgoes efficiency gains available from more structured approaches: a meta-analysis of 150 studies found predictive maintenance associated with a 17% improvement in equipment availability and a 23% reduction in maintenance costs.", recommendation: "The foundational stage of the underlying framework recommends two concrete first steps, not a full technology rollout: digitise maintenance records (even a basic spreadsheet) and identify the two or three HVAC assets most critical to your operations for closer attention.", citations: ["Olagoke et al. (2026)", "Lei et al. (2018)"] },
+    { summary: "A reactive maintenance culture reflects a well-documented pattern rather than an unusual shortfall — organisations were found to recognise the operational value of more advanced maintenance while still lacking the digital infrastructure, skills, or organisational backing to act on it.", energyImpact: "Structured maintenance approaches carry a measurable cost advantage: published findings report 23% lower maintenance costs where predictive approaches replace purely reactive ones.", recommendation: "Rather than attempting predictive maintenance directly, begin with the same two foundational actions regardless of resource level: digitising records and asset prioritisation — both require minimal investment.", citations: ["Olagoke et al. (2026)", "Lei et al. (2018)"] },
   ],
   [ // Level 2 – Preventive
-    { summary: "Maintenance has moved to a scheduled, time-based rhythm — a meaningful step up from run-to-failure, though it isn't yet informed by actual equipment condition.", energyImpact: "Fixed-interval servicing reduces the worst failures, but equipment can still run inefficiently between scheduled visits if it degrades faster or slower than the calendar assumes.", recommendation: "Layer in simple condition indicators (vibration, temperature, filter differential pressure) on your highest-value units to start bridging toward condition-based maintenance." },
-    { summary: "A preventive maintenance schedule is in place, bringing more predictability than reactive approaches, even though it treats similar equipment identically regardless of actual wear.", energyImpact: "Because servicing intervals are fixed rather than condition-driven, some assets are likely over-maintained and others under-maintained — both waste either labour or energy.", recommendation: "Use your maintenance records to identify which equipment consistently needs attention between scheduled visits, and prioritise those for closer monitoring first." },
-    { summary: "Preventive scheduling is established, giving a solid operational baseline to build predictive capability on top of.", energyImpact: "Scheduled servicing catches many issues before failure, but subtle efficiency losses — a slowly fouling coil, a drifting sensor — can persist undetected between visits.", recommendation: "Pilot a small sensor deployment on one or two critical air handling units to test how real condition data compares with your current schedule-based assumptions." },
-    { summary: "Time-based preventive maintenance is your current standard — structured and defensible, but not yet responsive to how equipment is actually performing.", energyImpact: "The gap between 'scheduled' and 'needed' maintenance is often where energy waste hides, since a unit can quietly underperform for weeks before its next scheduled check.", recommendation: "Start capturing energy consumption per major HVAC asset — even monthly readings — so you can begin correlating maintenance timing with efficiency, not just uptime." },
+    { summary: "A scheduled, preventive approach represents genuine progress beyond reactive maintenance — the next step is not more frequent servicing but condition-based information to guide it.", energyImpact: "Preventive maintenance alone captures only part of the available benefit — a review of best practices for improving HVAC energy efficiency found integration of smart technologies with predictive maintenance can yield energy savings of up to 30%.", recommendation: "Introduce a limited set of high-value sensors (temperature, runtime, fault status) on your most critical assets rather than expanding the preventive schedule further — this is the specific foundational-stage sensing step the underlying framework recommends before any analytics investment.", citations: ["Olagoke et al. (2026)", "Simpeh et al. (2022)"] },
+    { summary: "Preventive, time-based servicing is a defensible and common stage, though it does not yet respond to actual equipment condition — this is the expected starting point for organisations with still-developing digital infrastructure.", energyImpact: "The gap between 'scheduled' and 'needed' maintenance is where efficiency is most often lost — manufacturing-sector evidence reports 20-25% HVAC energy reductions where condition data replaced fixed schedules.", recommendation: "Pilot condition monitoring on one or two critical assets before expanding — interpretable, rule-based diagnostics are specifically recommended over advanced analytics at this stage, since they were found to be more readily trusted and acted on by maintenance teams.", citations: ["Olagoke et al. (2026)", "Wang et al. (2017)"] },
   ],
   [ // Level 3 – Condition-Based
-    { summary: "Condition monitoring is genuinely influencing maintenance decisions now — a meaningful shift from calendar-driven to evidence-driven practice.", energyImpact: "This is typically where measurable energy savings start to show, since maintenance responds to real degradation rather than a fixed clock.", recommendation: "Expand sensor coverage and monitored parameters gradually, and feed condition data into a shared dashboard so decisions aren't held in one person's head." },
-    { summary: "You're using actual equipment condition to guide maintenance, at least for part of the HVAC estate — a solid mid-point on the maturity curve.", energyImpact: "Condition-based intervention tends to catch efficiency-robbing faults earlier than time-based schedules, though the benefit is currently limited to whichever assets are actually monitored.", recommendation: "Focus the next investment on closing gaps between monitored and unmonitored equipment — inconsistent coverage is often the main ceiling at this stage." },
-    { summary: "Maintenance decisions increasingly follow what the equipment is telling you, not just the calendar — real progress toward a predictive model.", energyImpact: "This stage often reveals hidden inefficiencies for the first time, since condition data surfaces problems that a purely scheduled approach would have missed entirely.", recommendation: "Consider integrating energy consumption data alongside condition data — the combination is what unlocks genuinely predictive, efficiency-aware maintenance." },
-    { summary: "A working condition-monitoring layer is in place, giving maintenance teams real signal to act on rather than relying purely on time intervals.", energyImpact: "Where this is applied, energy performance tends to stabilise, because faults that would silently increase energy draw get flagged before they become severe.", recommendation: "Push toward real-time, rather than periodic, data collection on your most energy-intensive units — usually the biggest lever available at this level." },
+    { summary: "Condition monitoring is genuinely shaping maintenance decisions now — this is the functional stage of the underlying framework, where sensor data is consolidated into a central record and used for early fault detection within existing workflows.", energyImpact: "This is typically where measurable energy savings start to show: a Spanish hospital that implemented predictive maintenance in its HVAC systems achieved a 17% reduction in energy consumption and a 20% decrease in operational costs.", recommendation: "Continue consolidating data into a single structured system if it isn't already, and begin cross-referencing energy trends with maintenance schedules — the specific precursor to a fuller maintenance-energy feedback loop.", citations: ["Olagoke et al. (2026)", "Sánchez-Barroso and García Sanz-Calcedo (2019)"] },
+    { summary: "You're using real equipment condition to guide maintenance, at least for part of the HVAC estate — a genuine mid-point between foundational digitisation and advanced predictive analytics.", energyImpact: "Condition-based intervention is where the literature consistently places the inflection point for efficiency gains — a 150-study meta-analysis found a 17% improvement in equipment availability associated with this transition specifically.", recommendation: "Expand sensor coverage guided by asset criticality rather than uniformly, and keep favouring interpretable, rule-based diagnostics over advanced models until data quality and team capability are ready for the next stage.", citations: ["Olagoke et al. (2026)", "Lei et al. (2018)"] },
   ],
   [ // Level 4 – Partial Predictive
-    { summary: "A predictive approach is running across a meaningful part of your HVAC estate — real-time data and condition monitoring are actively shaping maintenance timing.", energyImpact: "At this level, organisations typically see tangible reductions in energy waste from faults, since problems affecting efficiency are usually caught and corrected before they compound.", recommendation: "Close the remaining gap by extending sensor coverage and organisational buy-in to whichever HVAC assets are still on preventive or reactive practices." },
-    { summary: "Predictive maintenance capability is well established for at least part of the system — a strong position that's mostly about consolidation from here.", energyImpact: "Partial predictive coverage usually delivers real energy benefit already, but the untouched portion of the estate can still be a meaningful drag on overall performance.", recommendation: "Use the results from your predictive-covered assets to build the business case for extending coverage to the remaining HVAC systems." },
-    { summary: "Genuine predictive capability has been built — sensors, integration, and organisational process are working together for a good share of your HVAC fleet.", energyImpact: "This is typically the stage where energy savings become measurable and defensible in reporting, since fault-related inefficiency is being actively caught rather than assumed.", recommendation: "Formalise the link between energy data and maintenance triggers organisation-wide, so predictive practice becomes policy rather than a pocket of excellence." },
-    { summary: "Predictive maintenance is operating credibly, if not yet universally, across your HVAC systems.", energyImpact: "The parts of the estate under predictive management are likely running closer to design efficiency, while remaining reactive or preventive zones continue to carry disproportionate energy risk.", recommendation: "Prioritise organisational capability next — training, defined roles, and management support tend to limit full-estate rollout more than the technology itself." },
+    { summary: "A predictive approach is running across part of your HVAC estate — real-time data and condition monitoring are actively shaping maintenance timing, consistent with the advanced stage of the underlying framework.", energyImpact: "Organisations at this level are approaching the higher end of documented gains: manufacturing-sector evidence reports up to 70-75% reductions in unexpected breakdowns and 20-30% increases in equipment lifespan where predictive analytics are actively used.", recommendation: "Close the remaining gap by extending sensor coverage and predictive analytics to whichever assets are still on preventive or reactive practices, and formalise the link between energy data and maintenance triggers across the whole estate.", citations: ["Olagoke et al. (2026)", "Wang et al. (2017)"] },
+    { summary: "Predictive maintenance capability is well established for at least part of the system — the advanced stage of the framework, reached through the same staged progression regardless of how quickly an organisation gets there.", energyImpact: "Partial predictive coverage already delivers real benefit — evidence associates full integration of predictive maintenance with operational planning with returns as high as 320% over four years, suggesting further gains remain available in the uncovered portion of the estate.", recommendation: "Use the results from your predictive-covered assets to build the case for extending coverage — demonstrated, workflow-compatible value was found to be the strongest lever for sustained organisational backing of further investment.", citations: ["Olagoke et al. (2026)", "Wang et al. (2017)"] },
   ],
   [ // Level 5 – Fully Predictive
-    { summary: "This reflects a mature, fully predictive maintenance operation — sensors, data integration, and organisational process are working together across the HVAC estate.", energyImpact: "Organisations at this level are typically capturing close to the achievable energy efficiency ceiling for their HVAC systems, with faults caught and resolved before they measurably affect consumption.", recommendation: "The focus now shifts to continuous improvement — benchmarking performance over time, refining fault-detection thresholds, and sharing practice across other building systems beyond HVAC." },
-    { summary: "Predictive maintenance is fully embedded — a genuinely advanced position that most facilities are still working toward.", energyImpact: "At this maturity, energy performance is generally well optimised relative to equipment design, and further gains tend to come from fine-tuning rather than fixing gaps.", recommendation: "Consider extending the same predictive discipline and data infrastructure to adjacent systems (lighting, water, electrical) to compound facility-wide efficiency gains." },
-    { summary: "The HVAC maintenance function is operating at a genuinely predictive, data-driven level across the board.", energyImpact: "This tends to correspond with strong, stable energy performance, since the mechanisms that usually cause waste — undetected drift, delayed repairs, inconsistent servicing — are largely designed out.", recommendation: "Use this maturity as a reference case: document what worked so it can be replicated at other sites or extended to additional building systems." },
-    { summary: "A fully predictive maintenance model is in place, representing the top tier of this framework.", energyImpact: "Facilities at this level typically see the lowest fault-related energy waste achievable without major capital equipment upgrades.", recommendation: "Shift attention toward resilience and knowledge continuity — cross-training staff and documenting the predictive process so performance doesn't depend on any single person or system." },
+    { summary: "This reflects a mature, fully predictive maintenance operation — sensors, data integration, and organisational process working together, representing the fullest expression of the advanced stage in the underlying framework.", energyImpact: "Facilities operating at this level are positioned to capture close to the full documented range of benefit: published findings associate predictive maintenance with 20-30% increases in equipment lifespan and up to a 320% four-year return on investment when fully integrated with operational planning.", recommendation: "The framework's own stated limitations note that pilot deployment and longitudinal evaluation, not just continued investment, are what confirm energy, downtime and cost outcomes at scale — formal benchmarking over time is the recommended next step.", citations: ["Olagoke et al. (2026)", "Wang et al. (2017)"] },
+    { summary: "A fully predictive maintenance model is in place, representing the top tier of the framework underpinning this tool — a genuinely advanced position most organisations in this research were still working toward.", energyImpact: "This maturity level corresponds with the strongest documented outcomes in the literature: manufacturing-sector evidence associates fully integrated predictive maintenance with 70-75% reductions in unexpected breakdowns and up to a 320% four-year return on investment.", recommendation: "Consider extending the same staged, evidence-led approach to adjacent building systems — the framework's design logic (asset prioritisation, phased sensing, interpretable analytics, workflow integration) was developed to generalise across resource-constrained facility contexts, not only HVAC.", citations: ["Olagoke et al. (2026)", "Wang et al. (2017)"] },
   ],
 ];
 
 const DIM_NUDGES = {
   MM: [
-    "Maintenance Maturity is your current constraint — moving even one asset class from reactive to scheduled servicing is often the fastest way to lift the overall index.",
-    "Since maintenance strategy is the weakest link, tightening how consistently servicing actually happens will likely move the needle faster than adding more sensors.",
-    "Maintenance Maturity is trailing the other dimensions — a documented, consistently-followed servicing routine tends to be the cheapest lever available here.",
+    { text: "Maintenance Maturity is the constraint here — the underlying framework specifically links high HVAC system criticality to a need for asset prioritisation: focus improvement on your most critical assets first, not the whole estate at once.", citations: ["Olagoke et al. (2026)"] },
+    { text: "This dimension trailing the others matches a well-documented pattern: moving even one asset class from reactive to condition-based maintenance is often the fastest way to lift overall readiness, since it doesn't require new digital infrastructure first.", citations: ["Olagoke et al. (2026)"] },
   ],
   DR: [
-    "Digital Readiness is holding the score back — even moving records from paper or spreadsheets into a basic digital maintenance system can unlock the data every other dimension depends on.",
-    "Weak digital infrastructure limits what any other improvement can achieve, since sensor and condition data need somewhere reliable to land.",
-    "Digital Readiness is the softest spot — prioritising system integration over new hardware is likely to pay off first.",
+    { text: "Digital Readiness is the bottleneck — low digital readiness is specifically identified as a driver requiring phased implementation, starting with digitising records rather than a full system rollout.", citations: ["Olagoke et al. (2026)"] },
+    { text: "Weak digital infrastructure limits what any other dimension can achieve, since sensor and condition data need somewhere reliable to land — this is why the foundational stage of the underlying pathway starts here, not with sensors.", citations: ["Olagoke et al. (2026)"] },
   ],
   IOT: [
-    "Internet of Things Monitoring Capability is the current gap — expanding sensor coverage, even modestly, is usually the most direct route to real-time visibility.",
-    "Sensor and monitoring coverage is lagging the rest of the framework — targeting your highest-risk or highest-energy assets first will get the best return.",
-    "Internet of Things Monitoring is weakest here — before buying more sensors, check whether existing ones are actually being used to detect faults, not just collect data.",
+    { text: "IoT Monitoring Capability is the current gap — the framework's response to resource constraints is architectural: a small set of high-value sensors on critical assets, not broad instrumentation, is the recommended entry point.", citations: ["Olagoke et al. (2026)"] },
+    { text: "Sensor and monitoring coverage lagging the rest of the framework is common where skills and cost are both constrained — interpretable, rule-based diagnostics were specifically found to be trusted and acted on more readily than advanced models at this stage, so start there.", citations: ["Olagoke et al. (2026)"] },
   ],
   EN: [
-    "Energy Performance Integration is under-developed relative to the rest — connecting existing energy meters to your maintenance data is often a quick, low-cost fix.",
-    "Energy data isn't yet informing maintenance decisions — that link is usually the missing piece between good maintenance practice and measurable efficiency gains.",
-    "This dimension lags the others — even simple monthly energy tracking per HVAC asset would start closing the gap.",
+    { text: "Energy Performance Integration is under-developed relative to the rest — this is expected, since energy-fault linkage depends on both condition monitoring and energy monitoring existing first; it is typically the last dimension to mature, not a special failure.", citations: ["Olagoke et al. (2026)"] },
+    { text: "Energy data isn't yet shaping maintenance decisions — evidence indicates this link matters substantially: predictive maintenance integrated with operational planning has been associated with returns as high as 320% over four years.", citations: ["Wang et al. (2017)"] },
   ],
   ORG: [
-    "Organisational Capability is the constraint — training and clearly assigned ownership tend to matter more here than any additional technology spend.",
-    "People and process are the weak point, not the equipment — management support and defined roles are usually the fastest way to unblock progress.",
-    "This dimension is trailing — even without new tools, clarifying who owns predictive maintenance outcomes can meaningfully shift this score.",
+    { text: "Organisational Capability is the constraint — technical expertise and management support were found to be more decisive than cost alone in determining whether adoption succeeds, so training and clearly assigned ownership are likely to matter more here than further technology spend.", citations: ["Olagoke et al. (2026)"] },
+    { text: "People and process, not equipment, are the limiting factor here — defined roles, responsibilities and management commitment are explicit requirements within recognised facility-management system standards, and are worth formalising even before further technical investment.", citations: ["Lok et al. (2023a)"] },
   ],
 };
+
+const INDICATOR_RECOMMENDATIONS = {
+  MM_1: [
+    { text: `Reactive, complaint-based maintenance is the dominant pattern found in assessments of Nigerian public buildings — often compounded by a lack of formal maintenance policy and inadequate funding. Before adopting new technology, establishing even a basic scheduled-maintenance policy is the documented first step in this context.`, citations: [`Chima et al. (2021)`, `Ogungbile and Oke (2015)`] },
+    { text: `A data-driven maintenance-planning framework combining BIM, IoT, and machine learning for building components has been shown to enable more structured, predictive planning than fixed schedules alone — start by piloting this kind of framework on your highest-priority HVAC assets.`, citations: [`Cheng et al. (2020)`] },
+    { text: `A large-scale meta-analysis of 150 studies found data-driven predictive maintenance associated with a 23% reduction in maintenance costs and 17% improvement in equipment availability — continue extending data-driven planning frameworks to the remainder of your HVAC estate to capture more of this benefit.`, citations: [`Lei et al. (2018)`, `Cheng et al. (2020)`] },
+  ],
+  MM_2: [
+    { text: `Frequent unplanned failures are consistent with the reactive maintenance culture documented in assessments of Nigerian public buildings — start by logging failure causes systematically, even without new sensors, so patterns become visible.`, citations: [`Chima et al. (2021)`] },
+    { text: `A rolling-horizon approach to maintenance planning — reassessing priorities continuously rather than on a fixed schedule — has been shown to reduce the risk of service disruptions; apply this logic to your highest-failure-rate assets first.`, citations: [`Consilvio et al. (2021)`] },
+    { text: `IoT-based predictive maintenance has been associated with up to a 25% reduction in costs, driven by up to 50% shorter repair times and up to 36% longer equipment life — continued extension of this approach compounds these gains.`, citations: [`Shamayleh et al. (2020)`] },
+  ],
+  MM_3: [
+    { text: `Where condition monitoring is absent, this matches assessments of Nigerian facility management practice showing limited monitoring infrastructure is the norm, not the exception — start with a small number of high-value sensors on your most critical assets.`, citations: [`Ogungbile and Oke (2015)`] },
+    { text: `A machine-learning framework using real-time sensor data on building components has been shown to enable prediction of system anomalies and proactive maintenance — a good template for extending your current, partial monitoring.`, citations: [`Villa et al. (2022)`] },
+    { text: `A health-prognostics approach using autoencoders on HVAC sensor data achieved more than a 5% increase in fault-detection accuracy compared with traditional methods — continuous, advanced monitoring at this level is what unlocks that gain.`, citations: [`Tian et al. (2023)`] },
+  ],
+  MM_4: [
+    { text: `Where record-keeping is unsystematic, a useful model is the Building Condition Index approach used to prioritise maintenance and allocate resources across a portfolio of buildings — even a simple version, scored consistently, is more useful than none.`, citations: [`Liu and Arifin (2021)`] },
+    { text: `Partial digital record-keeping should be consolidated into a single system — manual, fragmented input is specifically identified as a source of data-quality problems that undermine condition-assessment tools.`, citations: [`Liu and Arifin (2021)`, `Dejaco et al. (2017)`] },
+    { text: `Systematic, well-analysed maintenance records are the foundation a data-driven planning framework combining BIM, IoT and machine learning depends on — this is the point at which such a framework becomes genuinely usable.`, citations: [`Cheng et al. (2020)`] },
+  ],
+  MM_5: [
+    { text: `Where maintenance decisions still run entirely on fixed schedules, this is consistent with the reactive, policy-light maintenance culture documented in Nigerian public buildings — foundational record-keeping and asset prioritisation come before decisions can meaningfully shift toward data.`, citations: [`Chima et al. (2021)`] },
+    { text: `Some data-informed decisions reflect a genuine shift toward rolling, condition-based reassessment rather than fixed scheduling — reinforce this by applying it consistently across your highest-priority assets.`, citations: [`Consilvio et al. (2021)`] },
+    { text: `Where decisions are substantially data-driven, this is the stage at which the largest documented benefits materialise — a 150-study meta-analysis found data-driven maintenance associated with 23% lower costs and 17% higher equipment availability.`, citations: [`Lei et al. (2018)`] },
+  ],
+  DR_1: [
+    { text: `No or minimal digital system in place is consistent with documented industry-wide reluctance to adopt digital maintenance technologies, often driven by uncertainty about productivity impact — a basic digital log is a lower-risk first step than a full system purchase.`, citations: [`Berlak et al. (2021)`] },
+    { text: `A knowledge-based BIM system that consolidates maintenance information into a centralised platform has been shown to improve maintenance team performance — partial CMMS/BMS use should move toward this kind of consolidation.`, citations: [`Motawa and Almarshad (2013)`] },
+    { text: `Effective digital maintenance management of HVAC systems has been linked to improved occupant satisfaction in office buildings — full system integration should be delivering measurable service-quality benefits, not just data collection.`, citations: [`Au-Yong et al. (2014)`] },
+  ],
+  DR_2: [
+    { text: `Manual record storage is prone to the data-quality issues specifically identified in facility condition assessment research — moving to even a basic digital log addresses this at the source.`, citations: [`Dejaco et al. (2017)`] },
+    { text: `Mixed manual and digital storage should be consolidated — the effectiveness of condition-assessment approaches has been shown to depend heavily on the accuracy of the underlying data input, which fragmented storage undermines.`, citations: [`Edirisinghe et al. (2013)`] },
+    { text: `Fully digital record storage is the foundation a centralised, knowledge-based maintenance system depends on — the next opportunity is ensuring records actively inform decisions, not just archive history.`, citations: [`Motawa and Almarshad (2013)`] },
+  ],
+  DR_3: [
+    { text: `Low data accessibility is common in older buildings, which frequently lack the detailed data needed to support more advanced digital tools like BIM — accessibility improves as a direct consequence of foundational digitisation.`, citations: [`Khaddaj and Srour (2016)`] },
+    { text: `Moderate accessibility is enough to support structured condition-assessment approaches, though data-quality issues from manual input remain a risk worth managing as you go.`, citations: [`Dejaco et al. (2017)`] },
+    { text: `High data accessibility is what allows an integrated digital platform to genuinely optimise maintenance decision-making, rather than simply storing information.`, citations: [`Volk et al. (2014)`] },
+  ],
+  DR_4: [
+    { text: `Low integration between building systems is a documented, common barrier to BIM adoption, driven particularly by cost and the need for specialised technical expertise — this is not unusual at this stage.`, citations: [`Oesterreich and Teuteberg (2019)`] },
+    { text: `Growing integration between systems is where BIM and digital-twin convergence technologies begin to add real value — continue prioritising interoperability over adding further standalone tools.`, citations: [`Sepasgozar et al. (2023)`] },
+    { text: `Strong system integration is what allows a BIM-based digital platform to support genuinely proactive, data-driven maintenance decisions across the whole estate.`, citations: [`Volk et al. (2014)`] },
+  ],
+  DR_5: [
+    { text: `Low data quality is expected where records are still largely manual or incomplete — this is exactly the condition that limits BIM and similar tools' usefulness in older buildings.`, citations: [`Khaddaj and Srour (2016)`] },
+    { text: `Moderate data quality is sufficient for structured condition-assessment approaches, though the accuracy of the underlying data will continue to shape how much you can trust the outputs.`, citations: [`Edirisinghe et al. (2013)`] },
+    { text: `High data quality and reliability is what ultimately enables advanced analytics — a systematic review of sensor data quality found this a persistent, ongoing concern even in mature deployments, not a one-time fix.`, citations: [`Teh et al. (2020)`] },
+  ],
+  IOT_1: [
+    { text: `No or very limited sensors is consistent with documented deployment challenges in building management systems, and with the high initial costs identified as a major barrier to IoT adoption in resource-constrained settings — start with a small, high-value sensor set rather than broad instrumentation.`, citations: [`Chan et al. (2023)`, `Lawal and Rafsanjani (2022)`] },
+    { text: `An open-source IoT architecture for building-facility maintenance has been demonstrated as a feasible, lower-cost entry point — sensors on some key components matches this functional-stage approach well.`, citations: [`Villa et al. (2021)`] },
+    { text: `Comprehensive sensor deployment is achievable, but smart-building IoT research emphasises that security and interoperability complexity grows accordingly — ensure architecture, not just sensor count, scales with coverage.`, citations: [`Minoli et al. (2017)`] },
+  ],
+  IOT_2: [
+    { text: `Monitoring very few parameters is consistent with the high-cost, resource-constrained conditions identified as typical barriers to broader IoT implementation in buildings.`, citations: [`Lawal and Rafsanjani (2022)`] },
+    { text: `Monitoring some parameters is a reasonable functional-stage position — a systematic review of sensor data quality found this an ongoing challenge regardless of scale, so prioritise the reliability of what you do monitor over adding more.`, citations: [`Teh et al. (2020)`] },
+    { text: `Broad parameter coverage aligns with more mature IoT-building-energy integration — a critical review found it genuinely effective only when parameters are tied to specific energy and maintenance decisions, not collected for their own sake.`, citations: [`Moudgil et al. (2023)`] },
+  ],
+  IOT_3: [
+    { text: `Infrequent or manual data collection is consistent with the infrastructure and connectivity limitations documented as common constraints on IoT use in resource-constrained settings.`, citations: [`Al-Obaidi et al. (2022)`] },
+    { text: `Periodic automated collection matches the open-source IoT architecture approach demonstrated as a feasible mid-tier option for building facilities.`, citations: [`Villa et al. (2021)`] },
+    { text: `Real-time or near-real-time collection is achievable but adds architectural complexity — smart-building IoT research specifically flags this as a point where interoperability and security need active management.`, citations: [`Minoli et al. (2017)`] },
+  ],
+  IOT_4: [
+    { text: `Little or no real-time monitoring is expected where connectivity and power infrastructure are themselves constrained — this is a documented condition in many developing-country building contexts, not a unique shortfall.`, citations: [`Al-Obaidi et al. (2022)`] },
+    { text: `An IoT-based model predictive control approach to HVAC systems has demonstrated real energy savings and improved thermal comfort — partial real-time monitoring on select assets is the natural staging point toward this.`, citations: [`Carli et al. (2020)`] },
+    { text: `Extensive real-time monitoring is a genuine advanced capability — ensure the underlying IoT architecture, not just sensor count, has been designed to handle the added interoperability and security demands.`, citations: [`Minoli et al. (2017)`] },
+  ],
+  IOT_5: [
+    { text: `Limited fault-detection capability is expected before adequate condition data exists — research on digital-twin-based predictive maintenance specifically identifies data availability, not algorithm sophistication, as the binding constraint at this stage.`, citations: [`Chen et al. (2023)`] },
+    { text: `Basic, rule-based fault detection matches the machine-learning framework approach demonstrated on building components — a reasonable, interpretable stepping stone toward more advanced detection.`, citations: [`Villa et al. (2022)`] },
+    { text: `Effective, advanced fault detection is achievable — an autoencoder-based health-prognostics approach on HVAC systems achieved over a 5% improvement in fault-detection accuracy compared with traditional methods.`, citations: [`Tian et al. (2023)`] },
+  ],
+  EN_1: [
+    { text: `Little energy monitoring is a reasonable starting point — building energy management system research identifies basic consumption tracking as the foundation model predictive control and fault detection are later built on.`, citations: [`Mariano-Hernández et al. (2021)`] },
+    { text: `A predictive maintenance system specifically designed to improve heating-equipment efficiency has been demonstrated as effective at this stage — some energy monitoring is enough to start applying this kind of targeted approach.`, citations: [`Santiago et al. (2019)`] },
+    { text: `Detailed energy monitoring integrated with maintenance is where the clearest hospital-specific evidence sits: a Spanish hospital achieved a 17% reduction in energy consumption and a 20% decrease in operational costs after implementing predictive maintenance in its HVAC systems.`, citations: [`Sánchez-Barroso and García Sanz-Calcedo (2019)`] },
+  ],
+  EN_2: [
+    { text: `Coarse energy monitoring is a defensible starting point — BEMS strategies such as demand-side management and fault detection depend on consumption data existing at all, before granularity becomes the priority.`, citations: [`Mariano-Hernández et al. (2021)`] },
+    { text: `Moderate monitoring detail is enough to start identifying inefficiency drivers — a review of best practices for improving HVAC energy efficiency treats this level of visibility as a realistic mid-stage target.`, citations: [`Simpeh et al. (2022)`] },
+    { text: `Highly granular monitoring is where the largest documented gains sit: manufacturing-sector evidence associates this level of detail with 20-25% HVAC energy reductions and up to a 320% four-year return on investment.`, citations: [`Wang et al. (2017)`] },
+  ],
+  EN_3: [
+    { text: `Energy data rarely features in maintenance planning at this stage — a review of IoT for energy-efficient buildings found this integration is typically a later-stage capability, not a starting requirement.`, citations: [`Al-Obaidi et al. (2022)`] },
+    { text: `Begin deliberately cross-referencing energy trends with maintenance schedules — a critical review of IoT integration in building energy infrastructure found this cross-referencing is where real operational value starts to emerge.`, citations: [`Moudgil et al. (2023)`] },
+    { text: `Energy data actively shaping maintenance planning is where the largest documented returns concentrate: up to a 320% four-year ROI has been associated with predictive maintenance fully integrated with operational planning.`, citations: [`Wang et al. (2017)`] },
+  ],
+  EN_4: [
+    { text: `Faults are rarely linked to energy impact at this stage — this connection depends on real-time monitoring capability existing first, which IoT-based model predictive control research treats as a prerequisite, not a parallel effort.`, citations: [`Carli et al. (2020)`] },
+    { text: `Start flagging which recurring faults have the largest energy impact — HVAC energy-efficiency best-practice research supports this kind of targeted prioritisation over blanket fault-fixing.`, citations: [`Simpeh et al. (2022)`] },
+    { text: `Strong energy-fault linkage lets you target maintenance at the faults that matter most for consumption — manufacturing-sector evidence reports 20-25% HVAC energy reductions where this kind of targeted approach was implemented.`, citations: [`Wang et al. (2017)`] },
+  ],
+  EN_5: [
+    { text: `Maintenance actions rarely target energy efficiency directly at this stage — the hospital-specific evidence available shows this integration is achievable, but typically follows once reliability-focused maintenance is established first.`, citations: [`Sánchez-Barroso and García Sanz-Calcedo (2019)`] },
+    { text: `Introduce a small number of explicitly energy-motivated maintenance actions — reviewed best practice treats this dual framing (reliability and efficiency together) as where meaningful, currently under-used gains sit.`, citations: [`Simpeh et al. (2022)`] },
+    { text: `Where maintenance is already explicitly energy-motivated, this reflects the fullest integration of BEMS strategy with maintenance practice — the evidence base associates this level of integration with the most substantial documented returns.`, citations: [`Wang et al. (2017)`, `Mariano-Hernández et al. (2021)`] },
+  ],
+  ORG_1: [
+    { text: `Limited technical expertise is one of the most consistently identified human-resource barriers in sustainable building maintenance research — training, recruitment and experience gaps are a structural, expected starting condition, not a unique failing.`, citations: [`Hauashdh et al. (2022)`] },
+    { text: `Moderate expertise supports functional-stage progress — research on developing-country construction workforces found skills shortages a persistent constraint on safe, efficient performance, reinforcing the case for continued, deliberate capability-building rather than assuming skills will follow technology.`, citations: [`Boadu et al. (2020)`] },
+    { text: `High technical expertise is where facility-management competency requirements under the ISO 41001 standard become most directly achievable and relevant to sustaining capability long-term.`, citations: [`Lok et al. (2023a)`] },
+  ],
+  ORG_2: [
+    { text: `Little digital training is expected before there is a system to train staff on — sequencing training to follow, not precede, foundational digitisation is consistent with how HR-related barriers are treated in sustainable maintenance research.`, citations: [`Hauashdh et al. (2022)`] },
+    { text: `Occasional training should become more structured — a review of ICT adoption barriers in the Nigerian construction sector found skills shortages a persistent constraint on realising the benefits of new technology, not just an implementation footnote.`, citations: [`Moshood et al. (2020)`] },
+    { text: `Strong digital training embedded in practice is what sustains capability over time — ISO 41001 frames competency as an ongoing management-system requirement, not a one-off event.`, citations: [`Lok et al. (2023a)`] },
+  ],
+  ORG_3: [
+    { text: `Limited management support is a genuine, documented barrier in Nigerian public healthcare building maintenance — not simply a perception issue — alongside insufficient funding and inadequately trained personnel.`, citations: [`Ebekozien (2021)`] },
+    { text: `Occasional support should be converted into a standing mandate — research on maintenance culture in developing-country public buildings identifies inconsistent institutional commitment as a key factor separating effective from ineffective maintenance regimes.`, citations: [`Ogunbayo et al. (2022)`] },
+    { text: `Strong, consistent management support reflects the top-management commitment expected within a recognised facility-management system standard — formalising this connection strengthens the case for continued investment.`, citations: [`Lok et al. (2023a)`] },
+  ],
+  ORG_4: [
+    { text: `Undefined roles are consistent with the governance-related barriers documented in Nigerian public hospital green-building and maintenance initiatives — establishing clear ownership, even informally, is a reasonable early step.`, citations: [`Ebekozien et al. (2022)`] },
+    { text: `Partially defined roles should be formalised — value-based maintenance practice research in public hospitals found clearly assigned responsibility a key factor distinguishing effective maintenance regimes.`, citations: [`Wong et al. (2021b)`] },
+    { text: `Clearly defined roles and responsibilities reflect genuine organisational maturity — defined roles, responsibilities and authorities are an explicit requirement within the ISO 41001 facility-management standard.`, citations: [`Lok et al. (2023a)`] },
+  ],
+  ORG_5: [
+    { text: `Very limited resources is among the most commonly documented barriers in Nigerian public healthcare building maintenance, alongside technical expertise gaps — this is a structural, expected starting condition in this context, not a unique shortfall.`, citations: [`Ebekozien (2021)`] },
+    { text: `Growing resource availability should be directed according to clear budget prioritisation — research on maintenance culture in developing-country public buildings identifies this prioritisation, more than raw budget size, as what separates effective resourcing from ineffective.`, citations: [`Ogunbayo et al. (2022)`] },
+    { text: `Strong resourcing supports advanced-stage capability — research on hospital building defects found that adequate, sustained resourcing, not just initial investment, was what prevented the deferred-maintenance patterns that lead to costly defects later.`, citations: [`Jesumoroti et al. (2022)`] },
+  ],
+};
+
+const REFERENCES = {
+  "Al-Obaidi et al. (2022)": { full: "Al-Obaidi, K. M., Hossain, M., Alduais, N. A. M., Al-Duais, H. S., Omrany, H., & Ghaffarianhoseini, A. (2022). A Review of Using IoT for Energy Efficient Buildings and Cities: A Built Environment Perspective. Energies, 15(16), 5991. https://doi.org/10.3390/en15165991", incomplete: false },
+  "Au-Yong et al. (2014)": { full: "Au-Yong, C. P., Ali, A. S., & Ahmad, F. (2014). Improving occupants' satisfaction with effective maintenance management of HVAC system in office buildings. Automation in Construction, 43, 31–37. https://doi.org/10.1016/j.autcon.2014.03.013", incomplete: false },
+  "Berlak et al. (2021)": { full: "Berlak, J., Hafner, S., & Kuppelwieser, V. G. (2021). Digitalization's impacts on productivity: a model-based approach and evaluation in Germany's building construction industry. Production Planning & Control, 32(4), 335–345. https://doi.org/10.1080/09537287.2020.1740815", incomplete: false },
+  "Boadu et al. (2020)": { full: "Boadu, E. F., Wang, C. C., & Sunindijo, R. Y. (2020). Characteristics of the Construction Industry in Developing Countries and Its Implications for Health and Safety: An Exploratory Study in Ghana. International Journal of Environmental Research and Public Health, 17(11), 4110. https://doi.org/10.3390/ijerph17114110", incomplete: false },
+  "Carli et al. (2020)": { full: "Carli, R., Cavone, G., Ben Othman, S., & Dotoli, M. (2020). IoT Based Architecture for Model Predictive Control of HVAC Systems in Smart Buildings. Sensors, 20(3), 781. https://doi.org/10.3390/s20030781", incomplete: false },
+  "Chan et al. (2023)": { full: "Chan, R., Yan, W. K., Ma, J. M., Loh, K. M., Yu, T., Low, M. Y. H., Yar, K. P., Rehman, H., & Phua, T. C. (2023). IoT devices deployment challenges and studies in building management system. Frontiers in the Internet of Things, 2. https://doi.org/10.3389/friot.2023.1254160", incomplete: false },
+  "Chen et al. (2023)": { full: "Chen, C., Fu, H., Zheng, Y., Tao, F., & Liu, Y. (2023). The advance of digital twin for predictive maintenance: The role and function of machine learning. Journal of Manufacturing Systems, 71, 581–594. https://doi.org/10.1016/j.jmsy.2023.10.010", incomplete: false },
+  "Cheng et al. (2020)": { full: "Cheng, J. C. P., Chen, W., Chen, K., & Wang, Q. (2020). Data-driven predictive maintenance planning framework for MEP components based on BIM and IoT using machine learning algorithms. Automation in Construction, 112, 103087. https://doi.org/10.1016/j.autcon.2020.103087", incomplete: false },
+  "Chima et al. (2021)": { full: "Chima, O. A., Ifeanyichukwu, N. E., Nnamdi, A. T., Chukwuemeka, I. G., & Precious-favour, N. O. (2021). Evaluation of the Practice of Building Survey for Maintenance of Public Building in South-East Nigeria. Journal of Engineering Research and Reports, 108–122. https://doi.org/10.9734/jerr/2021/v20i317288", incomplete: false },
+  "Consilvio et al. (2021)": { full: "Consilvio, A., Febbraro, A. Di, & Sacco, N. (2021). A Rolling-Horizon Approach for Predictive Maintenance Planning to Reduce the Risk of Rail Service Disruptions. IEEE Transactions on Reliability, 70(3), 875–886. https://doi.org/10.1109/TR.2020.3007504", incomplete: false },
+  "Dejaco et al. (2017)": { full: "Dejaco, M. C., Re Cecconi, F., & Maltese, S. (2017). Key Performance Indicators for Building Condition Assessment. Journal of Building Engineering, 9, 17–28. https://doi.org/10.1016/j.jobe.2016.11.004", incomplete: false },
+  "Ebekozien (2021)": { full: "Ebekozien, A. (2021). Maintenance practices in Nigeria's public health-care buildings: a systematic review of issues and feasible solutions. Journal of Facilities Management, 19(1), 32–52. https://doi.org/10.1108/JFM-08-2020-0052", incomplete: false },
+  "Ebekozien et al. (2022)": { full: "Ebekozien, A., Ayo-Odifiri, S. O., Nwaole, A. N. C., Ibeabuchi, A. L., & Uwadia, F. E. (2022). Barriers in Nigeria's public hospital green buildings implementation initiatives. Journal of Facilities Management, 20(4), 586–605. https://doi.org/10.1108/JFM-01-2021-0009", incomplete: false },
+  "Edirisinghe et al. (2013)": { full: "Edirisinghe, R., Setunge, S., & Zhang, G. (2013). Application of Gamma Process for Building Deterioration Prediction. Journal of Performance of Constructed Facilities, 27(6), 763–773. https://doi.org/10.1061/(ASCE)CF.1943-5509.0000358", incomplete: false },
+  "Hauashdh et al. (2022)": { full: "Hauashdh, A., Jailani, J., Rahman, I. A., & AL-fadhali, N. (2022). Strategic approaches towards achieving sustainable and effective building maintenance practices in maintenance-managed buildings. Journal of Building Engineering, 45, 103490. https://doi.org/10.1016/j.jobe.2021.103490", incomplete: false },
+  "Jesumoroti et al. (2022)": { full: "Jesumoroti, C., Olanrewaju, A., & Khor, S. C. (2022). Defects in Malaysian hospital buildings. International Journal of Building Pathology and Adaptation. https://doi.org/10.1108/IJBPA-12-2021-0166", incomplete: false },
+  "Khaddaj and Srour (2016)": { full: "Khaddaj, M., & Srour, I. (2016). Using BIM to Retrofit Existing Buildings. Procedia Engineering, 145, 1526–1533. https://doi.org/10.1016/j.proeng.2016.04.192", incomplete: false },
+  "Lawal and Rafsanjani (2022)": { full: "Lawal, K., & Rafsanjani, H. N. (2022). Trends, benefits, risks, and challenges of IoT implementation in residential and commercial buildings. Energy and Built Environment, 3(3), 251–266. https://doi.org/10.1016/j.enbenv.2021.01.009", incomplete: false },
+  "Lei et al. (2018)": { full: "Lei, Y., Li, N., Guo, L., Li, N., Yan, T., & Lin, J. (2018). Machinery health prognostics: A systematic review from data acquisition to RUL prediction. Mechanical Systems and Signal Processing, 104, 799–834. https://doi.org/10.1016/j.ymssp.2017.11.016", incomplete: false },
+  "Liu and Arifin (2021)": { full: "Liu, S.-S., & Arifin, M. F. A. (2021). Preventive Maintenance Model for National School Buildings in Indonesia Using a Constraint Programming Approach. Sustainability, 13(4), 1874. https://doi.org/10.3390/su13041874", incomplete: false },
+  "Lok et al. (2023a)": { full: "Lok, K. L., van der Pool, I., Smith, A. J., Opoku, A., & Cheung, K. L. (2023a). Sustainable digitalisation and implementation of ISO standards for facilities management. Facilities, 41(5/6), 434–453. https://doi.org/10.1108/F-03-2022-0038", incomplete: false },
+  "Mariano-Hernández et al. (2021)": { full: "Mariano-Hernández, D., Hernández-Callejo, L., Zorita-Lamadrid, A., Duque-Pérez, O., & Santos García, F. (2021). A review of strategies for building energy management system: Model predictive control, demand side management, optimization, and fault detection & diagnosis. Journal of Building Engineering, 33, 101692. https://doi.org/10.1016/j.jobe.2020.101692", incomplete: false },
+  "Minoli et al. (2017)": { full: "Minoli, D., Sohraby, K., & Occhiogrosso, B. (2017). IoT Considerations, Requirements, and Architectures for Smart Buildings—Energy Optimization and Next-Generation Building Management Systems. IEEE Internet of Things Journal, 4(1), 269–283. https://doi.org/10.1109/JIOT.2017.2647881", incomplete: false },
+  "Moshood et al. (2020)": { full: "Moshood, T., Nawanir, G., Sorooshian, S., Mahmud, F., & Adeleke, A. (2020). Barriers and Benefits of ICT Adoption in the Nigerian Construction Industry. A Comprehensive Literature Review. Applied System Innovation, 3(4), 46. https://doi.org/10.3390/asi3040046", incomplete: false },
+  "Motawa and Almarshad (2013)": { full: "Motawa, I., & Almarshad, A. (2013). A knowledge-based BIM system for building maintenance. Automation in Construction, 29, 173–182. https://doi.org/10.1016/j.autcon.2012.09.008", incomplete: false },
+  "Moudgil et al. (2023)": { full: "Moudgil, V., Hewage, K., Hussain, S. A., & Sadiq, R. (2023). Integration of IoT in building energy infrastructure: A critical review on challenges and solutions. Renewable and Sustainable Energy Reviews, 174, 113121. https://doi.org/10.1016/j.rser.2022.113121", incomplete: false },
+  "Oesterreich and Teuteberg (2019)": { full: "Oesterreich, T. D., & Teuteberg, F. (2019). Behind the scenes: Understanding the socio-technical barriers to BIM adoption. Technological Forecasting and Social Change, 146, 413–431. https://doi.org/10.1016/j.techfore.2019.01.003", incomplete: false },
+  "Ogunbayo et al. (2022)": { full: "Ogunbayo, B. F., Aigbavboa, C. O., Thwala, W., Akinradewo, O., Ikuabe, M., & Adekunle, S. A. (2022). Review of Culture in Maintenance Management of Public Buildings in Developing Countries. Buildings, 12(5), 677. https://doi.org/10.3390/buildings12050677", incomplete: false },
+  "Ogungbile and Oke (2015)": { full: "Ogungbile, A. J., & Oke, A. E. (2015). Assessment of facility management practices in public and private buildings in Akure and Ibadan cities, south-western Nigeria. Journal of Facilities Management, 13(4), 366–390. https://doi.org/10.1108/JFM-11-2014-0037", incomplete: false },
+  "Olagoke et al. (2026)": { full: "Olagoke, O. A., Yiu, T. W., Mojtahedi, M., & Frimpong, S. (2026). An IoT-enabled predictive maintenance framework for hospital HVAC systems: implications for facilities management and sustainability. Facilities, 44(15–16), 63–79. https://doi.org/10.1108/F-02-2026-0023", incomplete: false },
+  "Santiago et al. (2019)": { full: "Santiago, A. R., Antunes, M., Barraca, J. P., Gomes, D., & Aguiar, R. L. (2019). Predictive Maintenance System for Efficiency Improvement of Heating Equipment. 2019 IEEE Fifth International Conference on Big Data Computing Service and Applications, 93–98. https://doi.org/10.1109/BigDataService.2019.00019", incomplete: false },
+  "Sepasgozar et al. (2023)": { full: "Sepasgozar, S., Khan, A., Smith, K., Romero, J., Shen, X., Shirowzhan, S., Li, H., & Tahmasebinia, F. (2023). BIM and Digital Twin for Developing Convergence Technologies as Future of Digital Construction. Buildings, 13(2), 441. https://doi.org/10.3390/buildings13020441", incomplete: false },
+  "Shamayleh et al. (2020)": { full: "Shamayleh, A., Awad, M., & Farhat, J. (2020). IoT Based Predictive Maintenance Management of Medical Equipment. Journal of Medical Systems, 44(4), 72. https://doi.org/10.1007/s10916-020-1534-8", incomplete: false },
+  "Simpeh et al. (2022)": { full: "Simpeh, E. K., Pillay, J.-P. G., Ndihokubwayo, R., & Nalumu, D. J. (2022). Improving energy efficiency of HVAC systems in buildings: a review of best practices. International Journal of Building Pathology and Adaptation, 40(2), 165–182. https://doi.org/10.1108/IJBPA-02-2021-0019", incomplete: false },
+  "Sánchez-Barroso and García Sanz-Calcedo (2019)": { full: "Sánchez-Barroso, G., & García Sanz-Calcedo, J. (2019). Application of Predictive Maintenance in Hospital Heating, Ventilation and Air Conditioning Facilities. Emerging Science Journal, 3(5), 337–343. https://doi.org/10.28991/esj-2019-01196", incomplete: false },
+  "Teh et al. (2020)": { full: "Teh, H. Y., Kempa-Liehr, A. W., & Wang, K. I.-K. (2020). Sensor data quality: a systematic review. Journal of Big Data, 7(1), 11. https://doi.org/10.1186/s40537-020-0285-1", incomplete: false },
+  "Tian et al. (2023)": { full: "Tian, R., Gomez-Rosero, S., & Capretz, M. A. M. (2023). Health Prognostics Classification with Autoencoders for Predictive Maintenance of HVAC Systems. Energies, 16(20), 7094. https://doi.org/10.3390/en16207094", incomplete: false },
+  "Villa et al. (2021)": { full: "Villa, V., Naticchia, B., Bruno, G., Aliev, K., Piantanida, P., & Antonelli, D. (2021). IoT Open-Source Architecture for the Maintenance of Building Facilities. Applied Sciences, 11(12), 5374. https://doi.org/10.3390/app11125374", incomplete: false },
+  "Villa et al. (2022)": { full: "Villa, V., Bruno, G., Aliev, K., Piantanida, P., Corneli, A., & Antonelli, D. (2022). Machine Learning Framework for the Sustainable Maintenance of Building Facilities. Sustainability, 14(2), 681. https://doi.org/10.3390/su14020681", incomplete: false },
+  "Volk et al. (2014)": { full: "Volk, R., Stengel, J., & Schultmann, F. (2014). Building Information Modeling (BIM) for existing buildings — Literature review and future needs. Automation in Construction, 38, 109–127. https://doi.org/10.1016/j.autcon.2013.10.023", incomplete: false },
+  "Wang et al. (2017)": { full: "Wang, J., Zhang, L., Duan, L., & Gao, R. X. (2017). A new paradigm of cloud-based predictive maintenance for intelligent manufacturing. Journal of Intelligent Manufacturing, 28(5), 1125–1137. https://doi.org/10.1007/s10845-015-1066-0", incomplete: false },
+  "Wong et al. (2021b)": { full: "Wong, W. F., Olanrewaju, A., & Lim, P. I. (2021). Value-Based Building Maintenance Practices for Public Hospitals in Malaysia. Sustainability, 13(11), 6200. https://doi.org/10.3390/su13116200", incomplete: false },
+};
+
+
 
 // Full-name overrides for dimensions whose source name contains an
 // abbreviation. This only affects what's displayed — TOOL_DATA.dimensions[].name
@@ -226,6 +388,20 @@ const DIM_DISPLAY_NAMES = {
   IOT: 'Internet of Things Monitoring Capability',
 };
 function dimDisplayName(code) { return DIM_DISPLAY_NAMES[code] || dimByCode(code).name; }
+
+function getIndicatorRecommendation(indicatorId, score) {
+  const entries = INDICATOR_RECOMMENDATIONS[indicatorId];
+  if (!entries) return null;
+  const stageIdx = score <= 2 ? 0 : (score === 3 ? 1 : 2); // foundational / functional / advanced
+  return entries[stageIdx];
+}
+
+function citationList(keys) {
+  return (keys || []).map(k => {
+    const ref = REFERENCES[k];
+    return ref && ref.incomplete ? `${k}*` : k;
+  }).join('; ');
+}
 
 function hashAnswers(answers) {
   const keys = Object.keys(answers).sort();
@@ -260,6 +436,8 @@ const state = {
   metadata: { facility: '', assessor: '', date: todayISO() },
   isDemo: false,
   previousView: 'intro', // where to return to from the methodology page
+  resultsTab: 'summary', // 'summary' | 'references' — which tab is showing on the results page
+  metadataError: false, // true when Begin was clicked without a facility name filled in
   _animateQuestion: false, // transient: true for exactly one render when a slide-in should play
 };
 
@@ -376,7 +554,7 @@ function computeResults() {
     const opt = ind.options[selIdx];
     if (opt.score === null || opt.score === undefined) return null;
     return { id: ind.id, dimension: ind.dimension, question: ind.question, opt };
-  }).filter(Boolean).sort((a,b) => a.opt.score - b.opt.score).slice(0, 5);
+  }).filter(Boolean).sort((a,b) => a.opt.score - b.opt.score); // extensive: every answered+scored indicator, worst first — not capped
 
   return { dimResults, overallIndex, level, dataCompleteness, interpretation, weakest, answeredScored };
 }
@@ -524,6 +702,7 @@ function renderIntro() {
           <div class="mt-8 max-w-xl border border-hair bg-panel2 rounded-xl p-5">
             <div class="font-mono text-xs tracking-wider mb-2" style="color:#F2994A;">BEFORE YOU START</div>
             <ul class="text-sm text-dim space-y-1.5 leading-relaxed list-disc list-inside">
+              <li>You'll need to provide your facility/organisation name below — it's the only required field.</li>
               <li>Each dimension needs at least 3 of 5 questions answered to produce a score.</li>
               <li>Use "Not known" only when information is genuinely unavailable — it's excluded from scoring, not treated as zero.</li>
               <li>Takes about 8–10 minutes to complete.</li>
@@ -531,11 +710,15 @@ function renderIntro() {
           </div>
 
           <div class="mt-8 max-w-xl">
-            <div class="font-mono text-xs tracking-wider mb-2 text-dim">ASSESSMENT DETAILS <span class="text-dim/60">(optional, appears on your report)</span></div>
+            <div class="font-mono text-xs tracking-wider mb-2 text-dim">ASSESSMENT DETAILS <span class="text-dim/60">(facility required; rest optional — appears on your report)</span></div>
             <div class="grid sm:grid-cols-3 gap-3">
-              <input data-meta="facility" value="${escapeAttr(state.metadata.facility)}" placeholder="Facility / organisation" class="border border-hair bg-panel rounded-lg px-3 py-2.5 text-sm text-ink placeholder:text-dim/70" />
-              <input data-meta="assessor" value="${escapeAttr(state.metadata.assessor)}" placeholder="Assessor name" class="border border-hair bg-panel rounded-lg px-3 py-2.5 text-sm text-ink placeholder:text-dim/70" />
-              <input data-meta="date" type="date" value="${escapeAttr(state.metadata.date)}" class="border border-hair bg-panel rounded-lg px-3 py-2.5 text-sm text-ink" />
+              <div>
+                <input id="facility-input" data-meta="facility" value="${escapeAttr(state.metadata.facility)}" placeholder="Facility / organisation *" aria-required="true"
+                  class="w-full border rounded-lg px-3 py-2.5 text-sm text-ink placeholder:text-dim/70 ${state.metadataError ? 'border-red-400' : 'border-hair'} bg-panel" />
+                ${state.metadataError ? '<p class="text-[11px] text-red-600 mt-1">Facility / organisation is required.</p>' : ''}
+              </div>
+              <input data-meta="assessor" value="${escapeAttr(state.metadata.assessor)}" placeholder="Assessor name" class="border border-hair bg-panel rounded-lg px-3 py-2.5 text-sm text-ink placeholder:text-dim/70 h-fit" />
+              <input data-meta="date" type="date" value="${escapeAttr(state.metadata.date)}" class="border border-hair bg-panel rounded-lg px-3 py-2.5 text-sm text-ink h-fit" />
             </div>
           </div>
 
@@ -608,6 +791,17 @@ function renderMethodology() {
       </p>
     </div>
 
+    <h2 class="font-display text-xl text-ink mb-3">How recommendations are grounded</h2>
+    <p class="text-sm text-dim leading-relaxed max-w-2xl mb-4">
+      Every recommendation shown on the results page is tied to a specific, individually fit-checked citation rather
+      than generic advice. Recommendations follow a three-stage implementation pathway — foundational, functional,
+      and advanced — selected by each indicator's score, drawing on 41 distinct peer-reviewed sources spanning
+      predictive-maintenance and IoT research, building-assessment and facility-management literature, and studies
+      specific to Nigerian public and hospital building maintenance. Each citation was checked individually against
+      the indicator it supports, not assigned by topic alone. The specific source (or sources, where more than one
+      applies) is shown beneath every recommendation, and the full reference list appears at the end of each results page.
+    </p>
+
     <h2 class="font-display text-xl text-ink mb-3">The five dimensions</h2>
     <p class="text-sm text-dim leading-relaxed max-w-2xl mb-4">
       Each dimension is scored from 5 indicator questions and contributes to the overall index in proportion to its weight below.
@@ -650,8 +844,8 @@ function renderMethodology() {
     </ul>
 
     <p class="text-[11px] text-dim/70 italic max-w-2xl">
-      The "What This Means For You" narrative shown with results is separate, generated interpretive guidance —
-      it is not part of the scoring formulas described above.
+      The "What This Means For You" narrative shown with results synthesises the cited evidence for readability — the
+      citations shown beneath it are the primary record; the synthesis itself is not a formal engineering assessment.
     </p>
   </div>`;
 }
@@ -770,6 +964,7 @@ function renderAssessment() {
     <div class="flex items-center justify-between mb-2">
       <span class="font-mono text-dim text-xs">${totalAnswered} / 25 answered</span>
       <div class="flex gap-4">
+        <button id="go-home-btn" class="font-mono text-dim text-xs hover:text-ink transition-colors">Home</button>
         <button id="jump-results-btn" class="font-mono text-dim text-xs hover:text-ink transition-colors">View results →</button>
         <button id="restart-btn" class="font-mono text-dim text-xs hover:text-ink transition-colors">Restart</button>
       </div>
@@ -859,18 +1054,61 @@ function renderResults() {
       </div>`;
   }).join('');
 
-  const recs = r.answeredScored.map(a => {
-    const c = DIM_COLORS[dimCode(a.dimension)];
+  // Group every answered+scored indicator by dimension for the extensive, cited recommendations list.
+  const recsByDim = {};
+  r.answeredScored.forEach(a => {
+    const code = dimCode(a.dimension);
+    (recsByDim[code] = recsByDim[code] || []).push(a);
+  });
+
+  const recs = TOOL_DATA.dimensions.map(d => {
+    const items = recsByDim[d.code];
+    if (!items || !items.length) return '';
+    const c = DIM_COLORS[d.code];
+    const cards = items.map(a => {
+      const rec = getIndicatorRecommendation(a.id, a.opt.score);
+      if (!rec) return '';
+      const cites = citationList(rec.citations);
+      return `
+      <div class="border border-hair bg-panel rounded-xl p-4 shadow-sm" style="border-left: 4px solid ${c};">
+        <div class="flex items-center gap-2 mb-1 flex-wrap">
+          <span class="font-mono text-xs font-semibold" style="color:${c}" title="Reference ID: ${a.id}">${INDICATOR_LABELS[a.id] || a.id}</span>
+          <span class="font-mono text-xs text-dim">score ${a.opt.score}/5</span>
+        </div>
+        <p class="text-sm text-dim mb-2">${expandAcronyms(a.question)}</p>
+        <p class="text-sm text-ink mb-2">→ ${expandAcronyms(rec.text)}</p>
+        <p class="font-mono text-[10px] text-dim/70">Source: ${cites}</p>
+      </div>`;
+    }).join('');
     return `
-    <div class="border border-hair bg-panel rounded-xl p-4 shadow-sm" style="border-left: 4px solid ${c};">
-      <div class="flex items-center gap-2 mb-1 flex-wrap">
-        <span class="font-mono text-xs font-semibold" style="color:${c}" title="Reference ID: ${a.id}">${INDICATOR_LABELS[a.id] || a.id}</span>
-        <span class="font-mono text-xs text-dim">score ${a.opt.score}/5</span>
+    <div class="mb-5">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="font-mono text-xs px-2 py-0.5 rounded-full text-white" style="background:${c}">${d.code}</span>
+        <span class="text-sm text-ink font-medium">${dimDisplayName(d.code)}</span>
+        <span class="font-mono text-[11px] text-dim ml-auto">${items.length} recommendation${items.length === 1 ? '' : 's'}</span>
       </div>
-      <p class="text-sm text-dim mb-2">${expandAcronyms(a.question)}</p>
-      <p class="text-sm text-ink">→ ${expandAcronyms(a.opt.recommendation)}</p>
+      <div class="space-y-3">${cards}</div>
     </div>`;
-  }).join('') || `<p class="text-dim text-sm">No priority gaps identified from the answers provided.</p>`;
+  }).join('') || `<p class="text-dim text-sm">No recommendations yet — answer some questions to see evidence-grounded guidance here.</p>`;
+
+  const hasIncompleteCitation = r.answeredScored.some(a => {
+    const rec = getIndicatorRecommendation(a.id, a.opt.score);
+    return rec && (rec.citations || []).some(c => REFERENCES[c] && REFERENCES[c].incomplete);
+  });
+
+  const referencesUsed = new Set();
+  r.answeredScored.forEach(a => {
+    const rec = getIndicatorRecommendation(a.id, a.opt.score);
+    if (rec && rec.citations) rec.citations.forEach(c => referencesUsed.add(c));
+  });
+  (LEVEL_NARRATIVES[LEVELS.indexOf(r.level)] || []).forEach(v => (v.citations || []).forEach(c => referencesUsed.add(c)));
+  if (r.weakest) (DIM_NUDGES[r.weakest.code] || []).forEach(v => (v.citations || []).forEach(c => referencesUsed.add(c)));
+
+  const referencesList = Array.from(referencesUsed).sort().map(key => {
+    const ref = REFERENCES[key];
+    if (!ref) return '';
+    return `<li class="${ref.incomplete ? 'text-amber-700' : 'text-dim'}">${ref.incomplete ? '⚠ ' : ''}${ref.full}</li>`;
+  }).join('');
 
   const metaLine = [state.metadata.facility, state.metadata.assessor, state.metadata.date]
     .filter(Boolean).length > 0 ? `
@@ -891,6 +1129,7 @@ function renderResults() {
     <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
       <h2 class="font-display text-2xl text-ink">Assessment Results</h2>
       <div class="flex gap-3 no-print flex-wrap items-center">
+        <button id="go-home-btn" class="font-mono text-xs text-dim hover:text-ink transition-colors">Home</button>
         <button data-goto-methodology class="font-mono text-xs text-dim hover:text-ink transition-colors">Methodology</button>
         <button id="edit-answers-btn" class="font-mono text-xs text-dim hover:text-ink transition-colors">← Edit answers</button>
         <span class="w-px h-3 bg-hair"></span>
@@ -905,7 +1144,13 @@ function renderResults() {
 
     ${demoBanner}
 
+    <div class="flex gap-1 mb-6 border-b border-hair no-print">
+      <button id="results-tab-summary" class="font-mono text-xs px-4 py-2.5 border-b-2 transition-colors" style="${state.resultsTab === 'summary' ? 'border-color:#1DB870; color:#0F2A1F;' : 'border-color:transparent; color:#5C7568;'}">Results</button>
+      <button id="results-tab-references" class="font-mono text-xs px-4 py-2.5 border-b-2 transition-colors" style="${state.resultsTab === 'references' ? 'border-color:#1DB870; color:#0F2A1F;' : 'border-color:transparent; color:#5C7568;'}">References <span class="text-dim/60">(${referencesUsed.size})</span></button>
+    </div>
+
     <div id="report-content">
+    <div class="${state.resultsTab === 'summary' ? '' : 'results-tab-hidden'}">
     ${state.isDemo ? '<p class="text-xs font-mono text-dim mb-3">⚠ Sample demonstration data — not a real facility assessment.</p>' : ''}
     ${metaLine}
     <div class="flex gap-1.5 mb-6 max-w-md">${spectrumStrip(null)}</div>
@@ -923,7 +1168,7 @@ function renderResults() {
     </div>
 
     <div class="flex items-center gap-2 mb-8 text-xs text-dim">
-      <span style="color:#1DB870;">✓</span> Calculation logic verified against the source model — grounded in rigorous quantitative and qualitative data analysis.
+      <span style="color:#1DB870;">✓</span> Calculation logic verified against the source model. Recommendations below are evidence-grounded — each cites a published source (see the References tab above).
     </div>
 
     <h3 class="font-mono text-dim text-xs tracking-wider mb-3">DIMENSION BREAKDOWN</h3>
@@ -931,8 +1176,19 @@ function renderResults() {
 
     ${renderNarrative(r)}
 
-    <h3 class="font-mono text-dim text-xs tracking-wider mb-3">PRIORITY RECOMMENDATIONS</h3>
-    <div class="space-y-3">${recs}</div>
+    <div class="flex items-center justify-between mb-3">
+      <h3 class="font-mono text-dim text-xs tracking-wider">RECOMMENDATIONS <span class="text-dim/60">(${r.answeredScored.length}, evidence-grounded)</span></h3>
+    </div>
+    ${recs}
+    </div>
+
+    <div class="${state.resultsTab === 'references' ? '' : 'results-tab-hidden'}">
+    ${referencesList ? `
+    <h3 class="font-mono text-dim text-xs tracking-wider mb-3">REFERENCES <span class="text-dim/60">(${referencesUsed.size} cited on this page)</span></h3>
+    <ul class="text-xs leading-relaxed space-y-2.5 list-none max-w-3xl">${referencesList}</ul>
+    ${hasIncompleteCitation ? '<p class="text-[11px] text-amber-700 mt-3">⚠ One or more citations above are incomplete in the source thesis and need the full reference located before this tool is examined or published.</p>' : ''}
+    ` : '<p class="text-dim text-sm">No references yet — answer some questions to see evidence-grounded citations here.</p>'}
+    </div>
     </div>
   </div>`;
 }
@@ -959,12 +1215,14 @@ function renderNarrative(r) {
         <div class="font-mono text-[11px] tracking-wider mb-1" style="color:${r.level.color}">RECOMMENDATION</div>
         <p class="text-sm text-dim leading-relaxed">${narrative.recommendation}</p>
       </div>
+      <p class="font-mono text-[10px] text-dim/70">Source: ${citationList(narrative.citations)}</p>
       ${dimNudge ? `
       <div class="rounded-lg px-4 py-3 mt-1" style="background:${weakestColor}12;">
         <div class="font-mono text-[11px] tracking-wider mb-1" style="color:${weakestColor}">FOCUS AREA — ${r.weakest.code}</div>
-        <p class="text-sm text-ink leading-relaxed">${dimNudge}</p>
+        <p class="text-sm text-ink leading-relaxed mb-2">${dimNudge.text}</p>
+        <p class="font-mono text-[10px] text-dim/70">Source: ${citationList(dimNudge.citations)}</p>
       </div>` : ''}
-      <p class="text-[11px] text-dim/70 italic pt-1">This narrative is generated guidance, not part of the original scoring model — treat it as a starting point for discussion, not a formal engineering assessment.</p>
+      <p class="text-[11px] text-dim/70 italic pt-1">This narrative synthesises the cited evidence for readability — the source citations above are the primary record; treat this synthesis as a starting point for discussion, not a formal engineering assessment.</p>
     </div>
   </div>`;
 }
@@ -975,6 +1233,14 @@ function renderNarrative(r) {
 function attachHandlers() {
   const start = document.getElementById('start-btn');
   if (start) start.onclick = () => {
+    if (!state.metadata.facility || !state.metadata.facility.trim()) {
+      state.metadataError = true;
+      render();
+      const input = document.getElementById('facility-input');
+      if (input) input.focus();
+      return;
+    }
+    state.metadataError = false;
     clearProgress();
     const order = newRandomOrder();
     state.view = 'assessment'; state.step = 0; state.questionStep = 0; state.answers = {}; state.isDemo = false;
@@ -1004,7 +1270,7 @@ function attachHandlers() {
     state.metadata = { facility: 'Sample Facility (Demo Data)', assessor: 'Demo', date: todayISO() };
     state.isDemo = true;
     state.questionStep = 0;
-    state.view = 'results';
+    state.view = 'results'; state.resultsTab = 'summary';
     render();
   };
 
@@ -1035,17 +1301,20 @@ function attachHandlers() {
   };
 
   const jumpResults = document.getElementById('jump-results-btn');
-  if (jumpResults) jumpResults.onclick = () => { state.view = 'results'; render(); };
+  if (jumpResults) jumpResults.onclick = () => { state.view = 'results'; state.resultsTab = 'summary'; render(); };
 
   const back = document.getElementById('back-btn');
   if (back) back.onclick = () => { state.step = Math.max(0, state.step - 1); state.questionStep = 0; render(); };
 
   const next = document.getElementById('next-btn');
   if (next) next.onclick = () => {
-    if (state.step === state.dimOrder.length - 1) { state.view = 'results'; }
+    if (state.step === state.dimOrder.length - 1) { state.view = 'results'; state.resultsTab = 'summary'; }
     else { state.step += 1; state.questionStep = 0; }
     render();
   };
+
+  const goHome = document.getElementById('go-home-btn');
+  if (goHome) goHome.onclick = () => { state.view = 'intro'; render(); }; // non-destructive: progress stays intact
 
   const restart = document.getElementById('restart-btn');
   if (restart) restart.onclick = () => {
@@ -1053,6 +1322,7 @@ function attachHandlers() {
       clearProgress();
       state.view = 'intro'; state.step = 0; state.questionStep = 0; state.answers = {}; state.isDemo = false;
       state.metadata = { facility: '', assessor: '', date: todayISO() };
+      state.metadataError = false;
       render();
     }
   };
@@ -1063,15 +1333,26 @@ function attachHandlers() {
   const startOwn = document.getElementById('start-own-btn');
   if (startOwn) startOwn.onclick = () => {
     clearProgress();
-    const order = newRandomOrder();
-    state.view = 'assessment'; state.step = 0; state.questionStep = 0; state.answers = {}; state.isDemo = false;
+    // Route back through the intro page rather than straight into the assessment —
+    // otherwise the required-facility check below never gets a chance to run.
+    state.view = 'intro'; state.step = 0; state.questionStep = 0; state.answers = {}; state.isDemo = false;
     state.metadata = { facility: '', assessor: '', date: todayISO() };
-    state.dimOrder = order.dimOrder; state.questionOrder = order.questionOrder;
+    state.metadataError = false;
     render();
   };
 
   document.querySelectorAll('[data-meta]').forEach(input => {
-    input.oninput = () => { state.metadata[input.dataset.meta] = input.value; saveProgress(); };
+    input.oninput = () => {
+      state.metadata[input.dataset.meta] = input.value;
+      saveProgress();
+      // Clear the facility validation error live, without a full re-render (which would drop focus mid-type)
+      if (input.dataset.meta === 'facility' && state.metadataError && input.value.trim()) {
+        state.metadataError = false;
+        input.classList.remove('border-red-400'); input.classList.add('border-hair');
+        const errMsg = input.closest('div').querySelector('p.text-red-600');
+        if (errMsg) errMsg.remove();
+      }
+    };
   });
 
   const methLink = document.querySelectorAll('[data-goto-methodology]');
@@ -1082,6 +1363,12 @@ function attachHandlers() {
 
   const print = document.getElementById('print-btn');
   if (print) print.onclick = () => window.print();
+
+  const resultsTabSummary = document.getElementById('results-tab-summary');
+  if (resultsTabSummary) resultsTabSummary.onclick = () => { state.resultsTab = 'summary'; render(); };
+
+  const resultsTabReferences = document.getElementById('results-tab-references');
+  if (resultsTabReferences) resultsTabReferences.onclick = () => { state.resultsTab = 'references'; render(); };
 
   const downloadPdf = document.getElementById('download-pdf-btn');
   if (downloadPdf) downloadPdf.onclick = () => downloadReportAsPdf(downloadPdf);
@@ -1196,6 +1483,12 @@ async function downloadReportAsPdf(triggerBtn) {
   const originalLabel = triggerBtn.textContent;
   triggerBtn.textContent = 'Generating…';
   triggerBtn.disabled = true;
+  // Temporarily reveal both result tabs so the PDF includes references regardless
+  // of which tab is currently active on screen — restored via render() in `finally`.
+  document.querySelectorAll('#report-content .results-tab-hidden').forEach(node => {
+    node.classList.remove('results-tab-hidden');
+    node.dataset.wasTabHidden = 'true';
+  });
   try {
     const canvas = await html2canvas(el, { scale: 2, backgroundColor: '#F6FBF7', useCORS: true });
     const { jsPDF } = window.jspdf;
@@ -1230,6 +1523,7 @@ async function downloadReportAsPdf(triggerBtn) {
   } finally {
     triggerBtn.textContent = originalLabel;
     triggerBtn.disabled = false;
+    render(); // restores correct tab visibility (undoes the temporary reveal above)
   }
 }
 
