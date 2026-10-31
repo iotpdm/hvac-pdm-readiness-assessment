@@ -425,6 +425,148 @@ function shuffle(arr) {
 ========================================================================= */
 function todayISO() { return new Date().toISOString().slice(0, 10); }
 
+
+/* =========================================================================
+   DATA COLLECTION (research mode)
+   -------------------------------------------------------------------------
+   ONE SETTING TO EDIT: paste the address of your receiving endpoint between
+   the quotes below (e.g. the HTTP URL of your Power Automate flow). While it
+   is empty, the tool behaves exactly as before: nothing is ever sent anywhere,
+   and the consent / access-code section does not appear.
+   Append ?collect=preview to the page address to preview the section and test
+   the flow without any network call.
+   ========================================================================= */
+const SUBMISSION_ENDPOINT = "";
+const STUDY_CONTACT = "";            // optional: researcher contact shown in the notice, e.g. "name@university.edu"
+const NOTICE_VERSION = "2026-11-v1"; // bump whenever the notice wording changes; it is stored with every submission
+const TOOL_VERSION = "facilytics-v1";
+const COLLECT_PREVIEW = /[?&]collect=preview\b/.test(location.search);
+function collectionActive() { return !!SUBMISSION_ENDPOINT || COLLECT_PREVIEW; }
+
+function newSubmissionId() {
+  try { if (crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
+  return 'sub-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+}
+
+async function postSubmission() {
+  const record = buildExportRecord();
+  const payload = Object.assign({}, record, {
+    submission_id: state.consent.submissionId,
+    access_code: state.consent.accessCode.trim(),
+    consent: { given: true, notice_version: NOTICE_VERSION, given_at: state.consent.givenAt },
+    tool_version: TOOL_VERSION,
+  });
+  if (!SUBMISSION_ENDPOINT) { // preview mode: exercise the UI, send nothing
+    await new Promise(r => setTimeout(r, 700));
+    return { ok: true, preview: true };
+  }
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 20000);
+  try {
+    // text/plain keeps this a "simple" request, so browsers skip the CORS preflight
+    // that Power Automate and Apps Script endpoints do not answer.
+    const res = await fetch(SUBMISSION_ENDPOINT, {
+      method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload), signal: ctrl.signal,
+    });
+    if (res.status === 401 || res.status === 403) return { ok: false, reason: 'code' };
+    if (!res.ok) return { ok: false, reason: 'server' };
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, reason: e && e.name === 'AbortError' ? 'timeout' : 'network' };
+  } finally { clearTimeout(timer); }
+}
+
+// Called when a real (non-demo) assessment reaches the results page.
+function maybeSubmit(force) {
+  if (!collectionActive() || state.isDemo || !state.consent.given) return;
+  const h = hashAnswers(state.answers);
+  const sub = state.submission;
+  if (sub.status === 'sending') return;
+  if (!force && sub.status === 'sent' && sub.hash === h) return; // unchanged since last successful send
+  sub.status = 'sending'; sub.hash = h; sub.reason = '';
+  updateSubmissionUI();
+  postSubmission().then(r => {
+    if (state.submission.hash !== h) return;
+    state.submission.status = r.ok ? 'sent' : 'failed';
+    state.submission.reason = r.ok ? '' : r.reason;
+    state.submission.preview = !!r.preview;
+    updateSubmissionUI();
+  });
+}
+
+function submissionBannerInner() {
+  const sub = state.submission;
+  const wrap = (bg, border, body) => `<div class="rounded-xl px-4 py-3 mb-6 text-sm" style="background:${bg}; border:1px solid ${border}; color:#0F2A1F;">${body}</div>`;
+  if (sub.status === 'sending') return wrap('#EEF8F2', '#1DB870', 'Submitting your responses to the research study…');
+  if (sub.status === 'sent') return wrap('#EEF8F2', '#1DB870', `<strong>Thank you — your responses were submitted${sub.preview ? ' (preview only: nothing was actually sent)' : ''}.</strong> You can still download your own copy using Export JSON above.`);
+  if (sub.status === 'failed') {
+    const why = { code: 'The access code was not accepted. Please check it and try again.',
+      timeout: 'The study server took too long to respond.',
+      network: 'We could not reach the study server (this can be a connection or network-policy problem).',
+      server: 'The study server returned an error.' }[sub.reason] || 'Something went wrong.';
+    return wrap('#FFF6EC', '#F2994A', `<strong>Your responses have not been submitted.</strong> ${why} Your results below are unaffected.
+      <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button id="sub-retry-btn" class="font-mono text-xs text-white px-4 py-2 rounded-full btn-grad">Try again</button>
+        <button id="sub-json-btn" class="font-mono text-xs px-4 py-2 rounded-full" style="border:1px solid #F2994A; background:#fff;">Download my answers (JSON)</button>
+      </div>
+      <div style="margin-top:8px; font-size:12px; color:#5C7568;">If the problem continues, download the JSON file and send it to the researcher${STUDY_CONTACT ? ' at ' + escapeAttr(STUDY_CONTACT) : ''}.</div>`);
+  }
+  return '';
+}
+function updateSubmissionUI() {
+  const el = document.getElementById('submission-status');
+  if (!el) return;
+  el.innerHTML = submissionBannerInner();
+  const r = document.getElementById('sub-retry-btn'); if (r) r.onclick = () => maybeSubmit(true);
+  const j = document.getElementById('sub-json-btn'); if (j) j.onclick = () => downloadDataAsJson();
+}
+function resetConsentState() {
+  state.consent = { given: false, accessCode: '', givenAt: null, submissionId: null, error: false };
+  state.submission = { status: 'idle', hash: null, reason: '', preview: false };
+}
+
+function renderConsentBlock() {
+  if (!collectionActive()) return '';
+  const c = state.consent;
+  return `
+  <div class="mt-8 max-w-xl border border-hair bg-panel rounded-xl p-5">
+    <div class="font-mono text-xs tracking-wider mb-2" style="color:#1DB870;">RESEARCH PARTICIPATION <span class="text-dim/60">(optional)</span></div>
+    <p class="text-sm text-dim leading-relaxed mb-3">This tool is part of a doctoral research study on predictive-maintenance readiness in HVAC systems. If you agree, your responses are sent to the researcher when you finish.</p>
+    <ul class="text-sm text-dim space-y-1.5 leading-relaxed list-disc list-inside mb-3">
+      <li><strong class="text-ink">What is sent:</strong> your 25 answers and scores, the facility/organisation name, the assessor name and date if you entered them, and the access code.</li>
+      <li><strong class="text-ink">Where it goes:</strong> secure storage managed by the researcher's university. It is used only for this research and is not sold or shared for commercial purposes.</li>
+      <li><strong class="text-ink">Your choice:</strong> taking part is voluntary. If you do not tick the box, you can still use the whole tool and nothing is sent. Demo mode never sends anything.</li>
+      <li><strong class="text-ink">Your copy:</strong> you can always download your own answers from the results page.</li>
+      ${STUDY_CONTACT ? `<li><strong class="text-ink">Questions or withdrawal:</strong> contact ${escapeAttr(STUDY_CONTACT)}.</li>` : ''}
+    </ul>
+    <label class="flex items-start text-sm text-ink cursor-pointer" style="gap:10px;">
+      <input id="consent-check" type="checkbox" ${c.given ? 'checked' : ''} style="margin-top:3px; width:16px; height:16px; accent-color:#1DB870;" />
+      <span>I have read this notice and agree to submit my responses to the research study.</span>
+    </label>
+    <div id="access-code-wrap" style="${c.given ? '' : 'display:none;'} margin-top:12px;">
+      <input id="access-code-input" value="${escapeAttr(c.accessCode)}" placeholder="Access code (from your invitation) *" autocomplete="off" aria-required="true"
+        class="w-full border rounded-lg px-3 py-2.5 text-sm text-ink placeholder:text-dim/70 ${c.error ? 'border-red-400' : 'border-hair'} bg-panel" />
+      ${c.error ? '<p class="text-[11px] text-red-600 mt-1">Please enter the access code you were given.</p>' : ''}
+    </div>
+  </div>`;
+}
+
+// Returns true when the intro page may proceed. Consent is only enforced when the person ticked it.
+function consentReady() {
+  if (!collectionActive() || !state.consent.given) return true;
+  if (state.consent.accessCode.trim()) { state.consent.error = false; return true; }
+  state.consent.error = true; render();
+  const i = document.getElementById('access-code-input'); if (i) i.focus();
+  return false;
+}
+function stampConsent() {
+  if (collectionActive() && state.consent.given) {
+    state.consent.givenAt = new Date().toISOString();
+    if (!state.consent.submissionId) state.consent.submissionId = newSubmissionId();
+  }
+}
+
 const state = {
   view: 'intro',       // intro | assessment | results | methodology
   step: 0,             // index into state.dimOrder during assessment
@@ -439,6 +581,8 @@ const state = {
   resultsTab: 'summary', // 'summary' | 'references' — which tab is showing on the results page
   metadataError: false, // true when Begin was clicked without a facility name filled in
   _animateQuestion: false, // transient: true for exactly one render when a slide-in should play
+  consent: { given: false, accessCode: '', givenAt: null, submissionId: null, error: false },
+  submission: { status: 'idle', hash: null, reason: '', preview: false },
 };
 
 // Demo mode — the same worked example used to verify this app's arithmetic
@@ -721,6 +865,8 @@ function renderIntro() {
               <input data-meta="date" type="date" value="${escapeAttr(state.metadata.date)}" class="border border-hair bg-panel rounded-lg px-3 py-2.5 text-sm text-ink h-fit" />
             </div>
           </div>
+
+          ${renderConsentBlock()}
 
           <div class="mt-9 flex flex-wrap items-center gap-4">
             <button id="start-btn" class="inline-flex items-center gap-2 btn-grad text-white font-semibold px-7 py-3.5 rounded-full transition-all">
@@ -1144,6 +1290,8 @@ function renderResults() {
 
     ${demoBanner}
 
+    <div id="submission-status" class="no-print">${state.isDemo ? '' : submissionBannerInner()}</div>
+
     <div class="flex gap-1 mb-6 border-b border-hair no-print">
       <button id="results-tab-summary" class="font-mono text-xs px-4 py-2.5 border-b-2 transition-colors" style="${state.resultsTab === 'summary' ? 'border-color:#1DB870; color:#0F2A1F;' : 'border-color:transparent; color:#5C7568;'}">Results</button>
       <button id="results-tab-references" class="font-mono text-xs px-4 py-2.5 border-b-2 transition-colors" style="${state.resultsTab === 'references' ? 'border-color:#1DB870; color:#0F2A1F;' : 'border-color:transparent; color:#5C7568;'}">References <span class="text-dim/60">(${referencesUsed.size})</span></button>
@@ -1240,7 +1388,10 @@ function attachHandlers() {
       if (input) input.focus();
       return;
     }
+    if (!consentReady()) return;
     state.metadataError = false;
+    stampConsent();
+    state.submission = { status: 'idle', hash: null, reason: '', preview: false };
     clearProgress();
     const order = newRandomOrder();
     state.view = 'assessment'; state.step = 0; state.questionStep = 0; state.answers = {}; state.isDemo = false;
@@ -1248,8 +1399,28 @@ function attachHandlers() {
     render();
   };
 
+  const consentChk = document.getElementById('consent-check');
+  if (consentChk) consentChk.onchange = () => {
+    state.consent.given = consentChk.checked;
+    if (!consentChk.checked) state.consent.error = false;
+    const w = document.getElementById('access-code-wrap');
+    if (w) w.style.display = consentChk.checked ? '' : 'none';
+    if (consentChk.checked) { const i = document.getElementById('access-code-input'); if (i) i.focus(); }
+  };
+  const codeIn = document.getElementById('access-code-input');
+  if (codeIn) codeIn.oninput = () => {
+    state.consent.accessCode = codeIn.value;
+    if (state.consent.error && codeIn.value.trim()) {
+      state.consent.error = false;
+      codeIn.classList.remove('border-red-400'); codeIn.classList.add('border-hair');
+      const m = codeIn.parentElement.querySelector('p.text-red-600'); if (m) m.remove();
+    }
+  };
+
   const resume = document.getElementById('resume-btn');
   if (resume) resume.onclick = () => {
+    if (!consentReady()) return;
+    stampConsent();
     const saved = loadProgress();
     if (saved) {
       state.answers = saved.answers || {};
@@ -1301,7 +1472,7 @@ function attachHandlers() {
   };
 
   const jumpResults = document.getElementById('jump-results-btn');
-  if (jumpResults) jumpResults.onclick = () => { state.view = 'results'; state.resultsTab = 'summary'; render(); };
+  if (jumpResults) jumpResults.onclick = () => { state.view = 'results'; state.resultsTab = 'summary'; render(); maybeSubmit(); };
 
   const back = document.getElementById('back-btn');
   if (back) back.onclick = () => { state.step = Math.max(0, state.step - 1); state.questionStep = 0; render(); };
@@ -1311,6 +1482,7 @@ function attachHandlers() {
     if (state.step === state.dimOrder.length - 1) { state.view = 'results'; state.resultsTab = 'summary'; }
     else { state.step += 1; state.questionStep = 0; }
     render();
+    if (state.view === 'results') maybeSubmit();
   };
 
   const goHome = document.getElementById('go-home-btn');
@@ -1323,6 +1495,7 @@ function attachHandlers() {
       state.view = 'intro'; state.step = 0; state.questionStep = 0; state.answers = {}; state.isDemo = false;
       state.metadata = { facility: '', assessor: '', date: todayISO() };
       state.metadataError = false;
+      resetConsentState();
       render();
     }
   };
@@ -1338,6 +1511,7 @@ function attachHandlers() {
     state.view = 'intro'; state.step = 0; state.questionStep = 0; state.answers = {}; state.isDemo = false;
     state.metadata = { facility: '', assessor: '', date: todayISO() };
     state.metadataError = false;
+    resetConsentState();
     render();
   };
 
