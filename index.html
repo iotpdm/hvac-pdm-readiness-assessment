@@ -436,7 +436,7 @@ function todayISO() { return new Date().toISOString().slice(0, 10); }
    Append ?collect=preview to the page address to preview the section and test
    the flow without any network call.
    ========================================================================= */
-const SUBMISSION_ENDPOINT = "";
+const SUBMISSION_ENDPOINT = "https://script.google.com/macros/s/AKfycbzgHmLQAYCyANqfy_8VzuCQOXjXLdGRdQjEzJsjDReMK1K6lk4lWcUJx12MYbWdTz9W0w/exec";
 const STUDY_CONTACT = "";            // optional: researcher contact shown in the notice, e.g. "name@university.edu"
 const NOTICE_VERSION = "2026-11-v1"; // bump whenever the notice wording changes; it is stored with every submission
 const TOOL_VERSION = "facilytics-v1";
@@ -471,6 +471,11 @@ async function postSubmission() {
     });
     if (res.status === 401 || res.status === 403) return { ok: false, reason: 'code' };
     if (!res.ok) return { ok: false, reason: 'server' };
+    // Some endpoints (e.g. Google Apps Script) always answer HTTP 200 and report the outcome in a JSON body.
+    try {
+      const j = JSON.parse(await res.text());
+      if (j && j.ok === false) return { ok: false, reason: j.reason === 'code' ? 'code' : 'server' };
+    } catch (e) { /* not JSON (e.g. Power Automate's empty 200): treat HTTP success as success */ }
     return { ok: true };
   } catch (e) {
     return { ok: false, reason: e && e.name === 'AbortError' ? 'timeout' : 'network' };
@@ -544,8 +549,8 @@ function renderConsentBlock() {
       <input id="consent-check" type="checkbox" ${c.given ? 'checked' : ''} style="margin-top:3px; width:16px; height:16px; accent-color:#1DB870;" />
       <span>I have read this notice and agree to submit my responses to the research study.</span>
     </label>
-    <div id="access-code-wrap" style="${c.given ? '' : 'display:none;'} margin-top:12px;">
-      <input id="access-code-input" value="${escapeAttr(c.accessCode)}" placeholder="Access code (from your invitation) *" autocomplete="off" aria-required="true"
+    <div id="access-code-wrap" style="margin-top:12px; ${c.given ? '' : 'opacity:0.55;'}">
+      <input id="access-code-input" value="${escapeAttr(c.accessCode)}" placeholder="${c.given ? 'Access code (from your invitation) *' : 'Access code — tick the box above to type it'}" autocomplete="off" aria-required="true" ${c.given ? '' : 'disabled'}
         class="w-full border rounded-lg px-3 py-2.5 text-sm text-ink placeholder:text-dim/70 ${c.error ? 'border-red-400' : 'border-hair'} bg-panel" />
       ${c.error ? '<p class="text-[11px] text-red-600 mt-1">Please enter the access code you were given.</p>' : ''}
     </div>
@@ -1404,8 +1409,13 @@ function attachHandlers() {
     state.consent.given = consentChk.checked;
     if (!consentChk.checked) state.consent.error = false;
     const w = document.getElementById('access-code-wrap');
-    if (w) w.style.display = consentChk.checked ? '' : 'none';
-    if (consentChk.checked) { const i = document.getElementById('access-code-input'); if (i) i.focus(); }
+    const i = document.getElementById('access-code-input');
+    if (w) w.style.opacity = consentChk.checked ? '' : '0.55';
+    if (i) {
+      i.disabled = !consentChk.checked;
+      i.placeholder = consentChk.checked ? 'Access code (from your invitation) *' : 'Access code — tick the box above to type it';
+      if (consentChk.checked) i.focus();
+    }
   };
   const codeIn = document.getElementById('access-code-input');
   if (codeIn) codeIn.oninput = () => {
