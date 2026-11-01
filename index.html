@@ -436,7 +436,7 @@ function todayISO() { return new Date().toISOString().slice(0, 10); }
    Append ?collect=preview to the page address to preview the section and test
    the flow without any network call.
    ========================================================================= */
-const SUBMISSION_ENDPOINT = "https://script.google.com/macros/s/AKfycbzgHmLQAYCyANqfy_8VzuCQOXjXLdGRdQjEzJsjDReMK1K6lk4lWcUJx12MYbWdTz9W0w/exec";
+const SUBMISSION_ENDPOINT = "https://script.google.com/macros/s/AKfycbw3G4-cm2E_WCBHaIsJB4JJm0NyNCOGAj1VraxY-TZindqxAQfzvBl2jGR7LcJnnOuzlQ/exec";
 const STUDY_CONTACT = "";            // optional: researcher contact shown in the notice, e.g. "name@university.edu"
 const NOTICE_VERSION = "2026-11-v1"; // bump whenever the notice wording changes; it is stored with every submission
 const TOOL_VERSION = "facilytics-v1";
@@ -1140,6 +1140,8 @@ function renderAssessment() {
 
     <div class="space-y-4">${questions}</div>
 
+    ${state.questionStep === indicators.length - 1 ? `<p class="font-mono text-[11px] text-dim" style="margin-top:16px;">${answeredInCurrentDim === 5 ? 'All five questions in this dimension are answered.' : 'This is the last question in this dimension.'} Use the button below to continue.</p>` : ''}
+
     <div class="flex items-center justify-between mt-9">
       <button id="back-btn" class="${state.step === 0 ? 'invisible' : ''} font-mono text-sm text-dim hover:text-ink transition-colors px-4 py-2">
         ← Back
@@ -1458,7 +1460,20 @@ function attachHandlers() {
   document.querySelectorAll('[data-ind]').forEach(btn => {
     btn.onclick = () => {
       state.answers[btn.dataset.ind] = parseInt(btn.dataset.idx, 10);
-      render();
+      render(); // show the selection straight away
+      // Within a dimension, move on to the next question automatically after a brief pause,
+      // so "Next dimension" is the only button the person has to click.
+      if (state.view === 'assessment') {
+        const list = state.questionOrder[state.dimOrder[state.step]] || [];
+        const fromStep = state.step, fromQ = state.questionStep;
+        if (fromQ < list.length - 1) {
+          setTimeout(() => {
+            if (state.view === 'assessment' && state.step === fromStep && state.questionStep === fromQ) {
+              state.questionStep = fromQ + 1; state._animateQuestion = true; render();
+            }
+          }, 380);
+        }
+      }
     };
   });
 
